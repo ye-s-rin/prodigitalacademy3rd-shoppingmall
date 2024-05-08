@@ -47,8 +47,8 @@ public class ProductRepository {
     }
 
     public void registerProduct(Product product){
-        product.setId(id);
-        this.productTable.put(id++, product);
-        log.info("/product: repository - " + findProduct(id-1).getName());
+        product.setId(id++);
+        this.productTable.put(product.getId(), product);
+        log.info("/product: repository - " + findProduct(product.getId()).getName());
     }
 }
