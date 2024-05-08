@@ -4,6 +4,9 @@ import com.example.shoppingmall.utils.Validator;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/products")
-    public String registerProduct(@RequestBody Product product) {
+    public ResponseEntity registerProduct(@RequestBody Product product) {
         // * 유효성 검사: name(영어), price(숫자)
         // 1) 조건문
         String message = "";
@@ -53,13 +56,15 @@ public class ProductController {
 
         if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
             Product savedProduct = productService.registerProduct(product);
-            if (savedProduct != null) {
-                log.info("/product: controller - " + product.getName());
-                return product.getName() + " is registered\n";
+            try {
+                log.info("/product: controller - " + savedProduct.getName());
+            } catch (NullPointerException e) {
+                message += product.getName() + " is not registered\n";
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            message += product.getName() + " is not registered\n";
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return message;
     }
 }
