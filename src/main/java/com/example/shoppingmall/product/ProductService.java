@@ -25,9 +25,8 @@ public class ProductService {
         return this.productRepository.pagination(currentPage, limit);
     }
 
-    public void registerProduct(Product product) {
-        productRepository.registerProduct(product);
+    public Product registerProduct(Product product) {
         log.info("/product: service - " + product.getName());
-
+        return productRepository.registerProduct(product);
     }
 }
