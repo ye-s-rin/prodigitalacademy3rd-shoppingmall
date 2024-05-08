@@ -38,12 +38,28 @@ public class ProductController {
     }
 
     @PostMapping(value = "/products")
-    public void registerProduct(@RequestBody Product product) {
+    public String registerProduct(@RequestBody Product product) {
         // * 유효성 검사: name(영어), price(숫자)
         // 1) 조건문
-        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
-            productService.registerProduct(product);
-            log.info("/product: controller - " + product.getName());
+        String message = "";
+
+        if (!Validator.isAlpha(product.getName())) {
+            message += "name is not alphabet.\n";
         }
+
+        if (!Validator.isNumber(product.getPrice())) {
+            message += "price is not number.\n";
+        }
+
+        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
+            Product savedProduct = productService.registerProduct(product);
+            if (savedProduct != null) {
+                log.info("/product: controller - " + product.getName());
+                return product.getName() + " is registered\n";
+            }
+            message += product.getName() + " is not registered\n";
+        }
+
+        return message;
     }
 }
