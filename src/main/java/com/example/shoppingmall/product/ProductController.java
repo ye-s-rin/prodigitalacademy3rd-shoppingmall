@@ -3,7 +3,6 @@ package com.example.shoppingmall.product;
 import com.example.shoppingmall.utils.Validator;
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Log
 @RestController
 @AllArgsConstructor
 public class ProductController {
@@ -70,7 +68,7 @@ public class ProductController {
         if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
             Product savedProduct = productService.registerProduct(product);
             try {
-                log.info("/product: controller - " + savedProduct.getName());
+                log.info(savedProduct.getName());
             } catch (NullPointerException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
