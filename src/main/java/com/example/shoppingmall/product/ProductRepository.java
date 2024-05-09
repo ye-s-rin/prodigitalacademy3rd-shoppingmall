@@ -41,13 +41,14 @@ public class ProductRepository {
         currentPage = currentPage > 0 ? currentPage : 1;
         limit = limit > 0 ? limit : this.productTable.size();
         int lastPage;
+        int si;
 
         log.info("categoryId is " + categoryId);
         if (categoryId == null) {
             lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
             currentPage = Math.min(currentPage, lastPage);
 
-            int si = (currentPage - 1) * limit;
+            si = (currentPage - 1) * limit;
             for (int i = si;
                 i < Math.min(si + limit, productTable.size()); i++) {
                 products.add(findProduct(i));
@@ -65,13 +66,13 @@ public class ProductRepository {
             lastPage = (int) Math.ceil((double) count / limit);
             currentPage = Math.min(currentPage, lastPage);
 
-            int si = (currentPage - 1) * limit;
-            int tempCount = 0;
+            si = (currentPage - 1) * limit;
+            count = 0;
             for (Product product : tempProducts) {
-                if (tempCount >= si && tempCount < si + limit) {
+                if (count >= si && count < si + limit) {
                     products.add(product);
                 }
-                tempCount++;
+                count++;
             }
         }
 
