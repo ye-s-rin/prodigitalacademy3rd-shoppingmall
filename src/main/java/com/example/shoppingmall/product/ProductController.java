@@ -4,6 +4,9 @@ import com.example.shoppingmall.utils.Validator;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @Log
 @RestController
 @AllArgsConstructor
@@ -25,6 +29,7 @@ public class ProductController {
     @GetMapping(value = "/products/{id}")
     public ResponseEntity<Product> findProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
+            log.info("id of findProduct(id): " + id);
             Product resultProduct = productService.findProduct(id);
             if (resultProduct != null) {
                 return new ResponseEntity<>(resultProduct, HttpStatus.OK);
