@@ -19,16 +19,18 @@ public class Baseball {
         while (count > 0) {
             try {
                 System.out.println("남은 횟수: " + count);
+
                 int input = scanner.nextInt();
-                if (input > 987 || input <12 || Integer.toString(input).length() != 3) {
+                if (input > 987 || input < 12 || Integer.toString(input).length() != 3) {
                     System.out.println("! 알맞은 수를 입력하세요");
                     continue;
                 }
+
                 Set<Integer> set = new HashSet<>();
                 set.add(first(input));
                 set.add(second(input));
                 set.add(third(input));
-                if(set.size()<3){
+                if (set.size() < 3) {
                     System.out.println("! 중복 없이 입력하세요");
                     count--;
                     continue;
@@ -36,11 +38,13 @@ public class Baseball {
 
                 String result = play(input);
                 System.out.println(result);
-                if(result.equals("0O 3S 0B")){
+
+                if (result.equals("0O 3S 0B")) {
                     System.out.println("이겼습니다.");
                     scanner.close();
                     return;
                 }
+
                 count--;
             } catch (InputMismatchException e) {
                 System.out.println("! 숫자로 입력하세요");
