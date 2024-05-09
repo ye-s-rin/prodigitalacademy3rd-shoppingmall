@@ -67,22 +67,11 @@ public class ProductController {
     public ResponseEntity registerProduct(@RequestBody Product product) {
         // * 유효성 검사: name(영어), price(숫자)
         // 1) 조건문
-        String message = "";
-
-        if (!Validator.isAlpha(product.getName())) {
-            message += "name is not alphabet.\n";
-        }
-
-        if (!Validator.isNumber(product.getPrice())) {
-            message += "price is not number.\n";
-        }
-
         if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
             Product savedProduct = productService.registerProduct(product);
             try {
                 log.info("/product: controller - " + savedProduct.getName());
             } catch (NullPointerException e) {
-                message += product.getName() + " is not registered\n";
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
             return new ResponseEntity<>(HttpStatus.CREATED);
