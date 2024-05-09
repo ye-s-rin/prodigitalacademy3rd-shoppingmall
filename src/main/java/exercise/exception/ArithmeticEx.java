@@ -1,4 +1,4 @@
-package exercise;
+package exercise.exception;
 
 public class ArithmeticEx {
 
