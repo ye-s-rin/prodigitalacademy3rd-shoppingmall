@@ -43,11 +43,12 @@ public class ProductController {
     @GetMapping(value = "/products")
     public Map findProducts(
         @RequestParam(required = false, value = "currentPage") Integer currentPage,
-        @RequestParam(required = false, value = "limit") Integer limit) {
+        @RequestParam(required = false, value = "limit") Integer limit,
+        @RequestParam(required = false, value = "categoryId") Integer categoryId) {
         if (currentPage == null) {
             return this.productService.findProducts();
         } else {
-            return this.productService.pagination(currentPage, limit);
+            return this.productService.pagination(currentPage, limit, categoryId);
         }
     }
 

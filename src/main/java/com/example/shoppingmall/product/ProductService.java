@@ -21,8 +21,8 @@ public class ProductService {
         return this.productRepository.findProducts();
     }
 
-    public Map pagination(int currentPage, int limit) {
-        return this.productRepository.pagination(currentPage, limit);
+    public Map pagination(Integer currentPage, Integer limit, Integer categoryId) {
+        return this.productRepository.pagination(currentPage, limit, categoryId);
     }
 
     public Product registerProduct(Product product) {
