@@ -1,4 +1,4 @@
-package exercise;
+package exercise.generics;
 
 public class AutoUnboxing {
 
