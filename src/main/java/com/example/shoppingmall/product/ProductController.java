@@ -5,11 +5,7 @@ import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +41,10 @@ public class ProductController {
         @RequestParam(required = false, value = "currentPage") Integer currentPage,
         @RequestParam(required = false, value = "limit") Integer limit,
         @RequestParam(required = false, value = "categoryId") Integer categoryId) {
+
+        log.info("currentPage: " + currentPage);
+        log.info("limit: " + limit);
+        log.info("categoryId: " + categoryId);
 
         if (currentPage == null) {
             Map resultMap = this.productService.findProducts();
