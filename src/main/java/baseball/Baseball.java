@@ -14,14 +14,14 @@ public class Baseball {
         int count = 10;
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("0~9까지 한번씩만 사용하여 3자리 수를 입력하세요.");
+        System.out.println("0~9까지 한번씩만 사용하여 012 이상 987 이하의 수를 입력하세요. (3개의 수를 입력할 것)");
 
         while (count > 0) {
             try {
                 System.out.println("남은 횟수: " + count);
                 int input = scanner.nextInt();
-                if (input >= 1000 || input <100) {
-                    System.out.println("! 3자리 수를 입력하세요");
+                if (input > 987 || input <12 || Integer.toString(input).length() != 3) {
+                    System.out.println("! 알맞은 수를 입력하세요");
                     continue;
                 }
                 Set<Integer> set = new HashSet<>();
