@@ -43,7 +43,6 @@ public class ProductRepository {
         int lastPage;
         int si;
 
-        log.info("categoryId is " + categoryId);
         if (categoryId == null) {
             lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
             currentPage = Math.min(currentPage, lastPage);
