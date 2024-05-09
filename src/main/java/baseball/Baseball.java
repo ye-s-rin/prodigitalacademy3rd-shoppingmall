@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Baseball {
 
-    private static int[] answers = {1, 2, 8};
+    private static int[] answers = {5, 2, 7};
 
     public static void main(String[] args) {
         int count = 10;
@@ -20,23 +20,24 @@ public class Baseball {
             try {
                 System.out.println("남은 횟수: " + count);
 
-                int input = scanner.nextInt();
-                if (input > 987 || input < 12 || Integer.toString(input).length() != 3) {
+                String input = scanner.next();
+                if (Integer.parseInt(input) > 987 || Integer.parseInt(input) < 12 || input.length() != 3) {
                     System.out.println("! 알맞은 수를 입력하세요");
                     continue;
                 }
 
+                int inputInt = Integer.parseInt(input);
                 Set<Integer> set = new HashSet<>();
-                set.add(first(input));
-                set.add(second(input));
-                set.add(third(input));
+                set.add(first(inputInt));
+                set.add(second(inputInt));
+                set.add(third(inputInt));
                 if (set.size() < 3) {
                     System.out.println("! 중복 없이 입력하세요");
                     count--;
                     continue;
                 }
 
-                String result = play(input);
+                String result = play(inputInt);
                 System.out.println(result);
 
                 if (result.equals("0O 3S 0B")) {
@@ -47,6 +48,9 @@ public class Baseball {
 
                 count--;
             } catch (InputMismatchException e) {
+                System.out.println("! 숫자로 입력하세요");
+                scanner.nextLine();
+            } catch (NumberFormatException e) {
                 System.out.println("! 숫자로 입력하세요");
                 scanner.nextLine();
             }
