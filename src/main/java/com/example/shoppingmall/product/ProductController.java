@@ -41,14 +41,25 @@ public class ProductController {
     }
 
     @GetMapping(value = "/products")
-    public Map findProducts(
+    public ResponseEntity<Map> findProducts(
         @RequestParam(required = false, value = "currentPage") Integer currentPage,
         @RequestParam(required = false, value = "limit") Integer limit,
         @RequestParam(required = false, value = "categoryId") Integer categoryId) {
+
         if (currentPage == null) {
-            return this.productService.findProducts();
+            Map resultMap = this.productService.findProducts();
+            if (resultMap != null) {
+                return new ResponseEntity<>(resultMap, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
-            return this.productService.pagination(currentPage, limit, categoryId);
+            Map resultMap = this.productService.pagination(currentPage, limit, categoryId);
+            if (resultMap != null) {
+                return new ResponseEntity<>(resultMap, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
     }
 
