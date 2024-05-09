@@ -38,7 +38,8 @@ public class ProductRepository {
         Map result = new HashMap<String, Object>();
         ArrayList products = new ArrayList<Product>();
         Map pagination = new HashMap<String, Integer>();
-        currentPage = currentPage == 0 ? 1 : currentPage;
+        currentPage = currentPage != 0 ? currentPage : 1;
+        limit = limit != 0 ? limit : this.productTable.size();
         int lastPage;
 
         log.info("categoryId is " + categoryId);
@@ -61,6 +62,9 @@ public class ProductRepository {
                 }
             }
 
+            lastPage = (int) Math.ceil((double) count / limit);
+            currentPage = Math.min(currentPage, lastPage);
+
             int si = (currentPage - 1) * limit;
             int tempCount = 0;
             for (Product product : tempProducts) {
@@ -69,9 +73,6 @@ public class ProductRepository {
                 }
                 tempCount++;
             }
-
-            lastPage = (int) Math.ceil((double) count / limit);
-            currentPage = Math.min(currentPage, lastPage);
         }
 
         pagination.put("currentPage", currentPage);
