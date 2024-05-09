@@ -20,6 +20,7 @@ public class ProductRepository {
         this.productTable.put(id, new Product(id++, "t-shirts1", 1));
         this.productTable.put(id, new Product(id++, "pants0", 2));
         this.productTable.put(id, new Product(id++, "pants1", 2));
+        this.productTable.put(id, new Product(id++, "pants2", 2));
     }
 
     public Product findProduct(int id) {
@@ -35,17 +36,20 @@ public class ProductRepository {
 
     public Map pagination(Integer currentPage, Integer limit, Integer categoryId) {
         Map result = new HashMap<String, Object>();
-        Map subProducts = new HashMap<Integer, Product>();
+        ArrayList products = new ArrayList<Product>();
+        Map pagination = new HashMap<String, Integer>();
+        currentPage = currentPage == 0 ? 1 : currentPage;
         int lastPage;
 
         log.info("categoryId is " + categoryId);
         if (categoryId == null) {
-            lastPage = (int) Math.floor((double) this.productTable.size() / limit);
+            lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
             currentPage = Math.min(currentPage, lastPage);
 
-            for (int i = currentPage * limit;
-                i < Math.min(currentPage + limit, productTable.size()); i++) {
-                subProducts.put(i, findProduct(i));
+            int si = (currentPage - 1) * limit;
+            for (int i = si;
+                i < Math.min(si + limit, productTable.size()); i++) {
+                products.add(findProduct(i));
             }
         } else {
             int count = 0;
@@ -57,21 +61,24 @@ public class ProductRepository {
                 }
             }
 
+            int si = (currentPage - 1) * limit;
             int tempCount = 0;
             for (Product product : tempProducts) {
-                if (tempCount < limit) {
-                    subProducts.put(product.getId(), product);
-                    tempCount++;
+                if (tempCount >= si && tempCount < si + limit) {
+                    products.add(product);
                 }
+                tempCount++;
             }
 
-            lastPage = (int) Math.floor((double) count / limit);
+            lastPage = (int) Math.ceil((double) count / limit);
             currentPage = Math.min(currentPage, lastPage);
         }
 
-        result.put("subProducts", subProducts);
-        result.put("currentPage", currentPage);
-        result.put("lastPage", lastPage);
+        pagination.put("currentPage", currentPage);
+        pagination.put("lastPage", lastPage);
+
+        result.put("products", products);
+        result.put("pagination", pagination);
 
         return result;
     }
