@@ -38,8 +38,8 @@ public class ProductRepository {
         Map result = new HashMap<String, Object>();
         ArrayList products = new ArrayList<Product>();
         Map pagination = new HashMap<String, Integer>();
-        currentPage = currentPage != 0 ? currentPage : 1;
-        limit = limit != 0 ? limit : this.productTable.size();
+        currentPage = currentPage > 0 ? currentPage : 1;
+        limit = limit > 0 ? limit : this.productTable.size();
         int lastPage;
 
         log.info("categoryId is " + categoryId);
