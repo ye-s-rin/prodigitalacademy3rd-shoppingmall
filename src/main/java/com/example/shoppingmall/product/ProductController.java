@@ -24,16 +24,7 @@ public class ProductController {
 
     @GetMapping(value = "/products/{id}")
     public ResponseEntity<Product> findProduct(@PathVariable("id") int id) {
-        if (Validator.isNumber(id)) {
-            log.info(id + "");
-            Product resultProduct = productService.findProduct(id);
-            if (resultProduct != null) {
-                return new ResponseEntity<>(resultProduct, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return this.productService.findProduct(id);
     }
 
     @GetMapping(value = "/products")
@@ -41,10 +32,6 @@ public class ProductController {
         @RequestParam(required = false, value = "currentPage") Integer currentPage,
         @RequestParam(required = false, value = "limit") Integer limit,
         @RequestParam(required = false, value = "categoryId") Integer categoryId) {
-
-        log.info("currentPage: " + currentPage);
-        log.info("limit: " + limit);
-        log.info("categoryId: " + categoryId);
 
         Map products = this.productService.findProducts(currentPage, limit, categoryId);
 

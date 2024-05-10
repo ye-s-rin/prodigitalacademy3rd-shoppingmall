@@ -17,8 +17,17 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
-    public Product findProduct(int id) {
-        return productRepository.findProduct(id);
+    public ResponseEntity findProduct(int id) {
+        if (Validator.isNumber(id)) {
+            log.info(id + "");
+            Product resultProduct = productRepository.findProduct(id);
+            if (resultProduct != null) {
+                return new ResponseEntity<>(resultProduct, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
