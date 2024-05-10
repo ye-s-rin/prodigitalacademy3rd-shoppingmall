@@ -1,7 +1,6 @@
 package com.example.shoppingmall.product;
 
 import java.util.Map;
-import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ public class ProductService {
         return this.productRepository.findProducts();
     }
 
-    public Map pagination(Integer currentPage, Integer limit, Integer categoryId) {
-        return this.productRepository.pagination(currentPage, limit, categoryId);
+    public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
+        return this.productRepository.findProducts(currentPage, limit, categoryId);
     }
 
     public Product registerProduct(Product product) {

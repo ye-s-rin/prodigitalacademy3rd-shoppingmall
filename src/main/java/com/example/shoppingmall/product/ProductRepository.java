@@ -34,7 +34,7 @@ public class ProductRepository {
         return result;
     }
 
-    public Map pagination(Integer currentPage, Integer limit, Integer categoryId) {
+    public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
         Map result = new HashMap<String, Object>();
         ArrayList products = new ArrayList<Product>();
         Map pagination = new HashMap<String, Integer>();

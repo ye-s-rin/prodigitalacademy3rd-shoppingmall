@@ -52,7 +52,7 @@ public class ProductController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } else {
-            Map resultMap = this.productService.pagination(currentPage, limit, categoryId);
+            Map resultMap = this.productService.findProducts(currentPage, limit, categoryId);
             if (resultMap != null) {
                 return new ResponseEntity<>(resultMap, HttpStatus.OK);
             } else {
