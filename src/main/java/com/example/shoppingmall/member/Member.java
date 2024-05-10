@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Member {
 
+    private int id;
     private String user_id;
     private String profile_info;
     private String name;
