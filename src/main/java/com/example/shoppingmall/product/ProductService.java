@@ -16,24 +16,22 @@ public class ProductService {
         return productRepository.findProduct(id);
     }
 
-    public Map findProducts() {
-        return this.productRepository.findProducts();
-    }
-
-    public Map findProducts(Integer currentPage, Integer limit) {
-        if (limit == null) {
-            limit = 0;
-        }
-        currentPage = currentPage > 0 ? currentPage : 1;
-        return this.productRepository.findProducts(currentPage, limit);
-    }
-
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
         if (limit == null) {
             limit = 0;
         }
         currentPage = currentPage > 0 ? currentPage : 1;
-        return this.productRepository.findProducts(currentPage, limit, categoryId);
+
+        Map products;
+        if (currentPage == null) {
+            products = this.productRepository.findProducts();
+        } else if (categoryId == null) {
+            products = this.productRepository.findProducts(currentPage, limit);
+        } else {
+            products = this.productRepository.findProducts(currentPage, limit, categoryId);
+        }
+
+        return products;
     }
 
     public Product registerProduct(Product product) {
