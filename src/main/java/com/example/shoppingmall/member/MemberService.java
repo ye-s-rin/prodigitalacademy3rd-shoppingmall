@@ -1,5 +1,6 @@
 package com.example.shoppingmall.member;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,5 +15,9 @@ public class MemberService {
 
     public Member signup(@RequestBody Member member){
         return this.memberRepository.signup(member);
+    }
+
+    public Member login(Map<String, String> loginInfo) {
+        return this.memberRepository.login(loginInfo);
     }
 }

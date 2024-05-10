@@ -1,5 +1,6 @@
 package com.example.shoppingmall.member;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,16 @@ public class MemberController {
 
         if(signedMember != null) {
             return new ResponseEntity(HttpStatus.CREATED);
+        }
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping(value = "/login")
+    public ResponseEntity login(@RequestBody Map<String, String> loginInfo){
+        Member loginedMember = this.memberService.login(loginInfo);
+
+        if(loginedMember != null){
+            return new ResponseEntity(HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -16,4 +16,18 @@ public class MemberRepository {
 
         return this.memberTable.get(id++);
     }
+
+    public Member login(Map<String, String> loginInfo) {
+        for (Member member : this.memberTable.values()) {
+            if (isSignedMember(member, loginInfo)){
+                return this.memberTable.get(member.getId());
+            }
+        }
+        return null;
+    }
+
+    private boolean isSignedMember(Member member, Map<String, String> loginInfo) {
+        return member.getUser_id().equals(loginInfo.get("user_id")) && member.getProfile_info()
+            .equals(loginInfo.get("profile_info"));
+    }
 }
