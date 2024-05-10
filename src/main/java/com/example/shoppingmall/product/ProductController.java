@@ -44,14 +44,7 @@ public class ProductController {
         log.info("limit: " + limit);
         log.info("categoryId: " + categoryId);
 
-        Map products;
-        if (currentPage == null) {
-            products = this.productService.findProducts();
-        } else if (categoryId == null) {
-            products = this.productService.findProducts(currentPage, limit);
-        } else {
-            products = this.productService.findProducts(currentPage, limit, categoryId);
-        }
+        Map products = this.productService.findProducts(currentPage, limit, categoryId);
 
         if (products != null) {
             return new ResponseEntity<>(products, HttpStatus.OK);
