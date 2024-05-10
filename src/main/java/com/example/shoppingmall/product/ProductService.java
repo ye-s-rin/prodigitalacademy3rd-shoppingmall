@@ -1,14 +1,9 @@
 package com.example.shoppingmall.product;
 
-import com.example.shoppingmall.utils.Validator;
-import java.util.ArrayList;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Log
 @Service
