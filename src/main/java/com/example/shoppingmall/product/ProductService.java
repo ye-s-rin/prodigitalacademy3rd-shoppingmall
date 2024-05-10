@@ -1,9 +1,14 @@
 package com.example.shoppingmall.product;
 
+import com.example.shoppingmall.utils.Validator;
+import java.util.ArrayList;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Log
 @Service
@@ -38,7 +43,34 @@ public class ProductService {
         return productRepository.registerProduct(product);
     }
 
-    public Product deleteProduct(int id) {
-        return this.productRepository.deleteProduct(id);
+    public ResponseEntity deleteProduct(int id) {
+        if (Validator.isNumber(id)) {
+            Product deleteProduct = this.productRepository.deleteProduct(id);
+            if (deleteProduct == null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity deleteProducts(Map<String, ArrayList<Integer>> productsIds) {
+        Product deleteProduct;
+        ResponseEntity result = new ResponseEntity<>(HttpStatus.OK);
+
+        for (int id : productsIds.get("productIds")) {
+            if (Validator.isNumber(id)) {
+                deleteProduct = this.productRepository.deleteProduct(id);
+
+                if (deleteProduct != null) {
+                    result = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                result = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        return result;
     }
 }
