@@ -26,7 +26,7 @@ public class UserController {
             result.put("user_id", signedUser.getUserId());
             return new ResponseEntity(result, HttpStatus.CREATED);
         }
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/login")
@@ -36,6 +36,6 @@ public class UserController {
         if(loginedUser != null){
             return new ResponseEntity(HttpStatus.OK);
         }
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }
