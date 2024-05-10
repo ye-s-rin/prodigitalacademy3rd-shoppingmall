@@ -24,6 +24,7 @@ public class ProductService {
         if (limit == null) {
             limit = 0;
         }
+        currentPage = currentPage > 0 ? currentPage : 1;
         return this.productRepository.findProducts(currentPage, limit);
     }
 
@@ -31,6 +32,7 @@ public class ProductService {
         if (limit == null) {
             limit = 0;
         }
+        currentPage = currentPage > 0 ? currentPage : 1;
         return this.productRepository.findProducts(currentPage, limit, categoryId);
     }
 
