@@ -21,7 +21,7 @@ public class UserController {
         User signedUser = this.userService.join(user);
 
         if(signedUser != null) {
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity(signedUser.getUser_id(), HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
