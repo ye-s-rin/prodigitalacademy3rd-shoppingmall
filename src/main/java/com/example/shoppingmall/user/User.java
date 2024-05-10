@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
-    private String user_id;
-    private String profile_info;
+    private String userId;
+    private String profileInfo;
     private String name;
     private String email;
     private String contact;
