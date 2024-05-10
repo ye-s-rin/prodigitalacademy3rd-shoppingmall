@@ -17,17 +17,8 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
-    public ResponseEntity findProduct(int id) {
-        if (Validator.isNumber(id)) {
-            log.info(id + "");
-            Product resultProduct = productRepository.findProduct(id);
-            if (resultProduct != null) {
-                return new ResponseEntity<>(resultProduct, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public Product findProduct(int id) {
+        return this.productRepository.findProduct(id);
     }
 
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
@@ -47,20 +38,8 @@ public class ProductService {
         return products;
     }
 
-    public ResponseEntity registerProduct(Product product) {
-        // * 유효성 검사: name(영어), price(숫자)
-        // 1) 조건문
-        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
-            Product savedProduct = this.productRepository.registerProduct(product);
-            try {
-                log.info(savedProduct.getName());
-            } catch (NullPointerException e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public Product registerProduct(Product product) {
+        return this.productRepository.registerProduct(product);
     }
 
     public ResponseEntity deleteProduct(int id) {

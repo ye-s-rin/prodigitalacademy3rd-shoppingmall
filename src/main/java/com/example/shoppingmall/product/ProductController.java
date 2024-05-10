@@ -24,7 +24,15 @@ public class ProductController {
 
     @GetMapping(value = "/products/{id}")
     public ResponseEntity<Product> findProduct(@PathVariable("id") int id) {
-        return this.productService.findProduct(id);
+        if (Validator.isNumber(id)) {
+            Product resultProduct = productService.findProduct(id);
+            if (resultProduct != null) {
+                return new ResponseEntity<>(resultProduct, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "/products")
@@ -44,7 +52,19 @@ public class ProductController {
 
     @PostMapping(value = "/products")
     public ResponseEntity registerProduct(@RequestBody Product product) {
-        return this.productService.registerProduct(product);
+        // * 유효성 검사: name(영어), price(숫자)
+        // 1) 조건문
+        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
+            Product savedProduct = this.productService.registerProduct(product);
+            try {
+                log.info(savedProduct.getName());
+            } catch (NullPointerException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping(value = "/products/{id}")
