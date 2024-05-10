@@ -101,4 +101,8 @@ public class ProductRepository {
 
         return findProduct(product.getId());
     }
+
+    public Product deleteProduct(int id) {
+        return this.productTable.remove(id);
+    }
 }

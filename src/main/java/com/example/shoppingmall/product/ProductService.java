@@ -17,17 +17,16 @@ public class ProductService {
     }
 
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
-        if (limit == null) {
-            limit = 0;
-        }
-        currentPage = currentPage > 0 ? currentPage : 1;
+        limit = limit != null ? limit : 0;
 
         Map products;
         if (currentPage == null) {
             products = this.productRepository.findProducts();
         } else if (categoryId == null) {
+            currentPage = currentPage > 0 ? currentPage : 1;
             products = this.productRepository.findProducts(currentPage, limit);
         } else {
+            currentPage = currentPage > 0 ? currentPage : 1;
             products = this.productRepository.findProducts(currentPage, limit, categoryId);
         }
 
@@ -37,5 +36,9 @@ public class ProductService {
     public Product registerProduct(Product product) {
         log.info("/product: service - " + product.getName());
         return productRepository.registerProduct(product);
+    }
+
+    public Product deleteProduct(int id) {
+        return this.productRepository.deleteProduct(id);
     }
 }

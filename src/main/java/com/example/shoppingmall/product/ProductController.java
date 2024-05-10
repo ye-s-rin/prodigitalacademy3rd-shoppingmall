@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class ProductController {
     @GetMapping(value = "/products/{id}")
     public ResponseEntity<Product> findProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
-            log.info("id of findProduct(id): " + id);
+            log.info(id + "");
             Product resultProduct = productService.findProduct(id);
             if (resultProduct != null) {
                 return new ResponseEntity<>(resultProduct, HttpStatus.OK);
@@ -58,7 +59,7 @@ public class ProductController {
         // * 유효성 검사: name(영어), price(숫자)
         // 1) 조건문
         if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
-            Product savedProduct = productService.registerProduct(product);
+            Product savedProduct = this.productService.registerProduct(product);
             try {
                 log.info(savedProduct.getName());
             } catch (NullPointerException e) {
@@ -68,5 +69,18 @@ public class ProductController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping(value = "/products/{id}")
+    public ResponseEntity deleteProduct(@PathVariable("id") int id) {
+        if (Validator.isNumber(id)) {
+            Product deleteProduct = this.productService.deleteProduct(id);
+            if (deleteProduct == null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
