@@ -81,7 +81,23 @@ public class ProductController {
     }
 
     @PostMapping(value = "/products/delete")
-    public ResponseEntity deleteProducts(@RequestBody Map<String, ArrayList<Integer>> deleteRequest) {
-        return this.productService.deleteProducts(deleteRequest);
+    public ResponseEntity deleteProducts(
+        @RequestBody Map<String, ArrayList<Integer>> deleteRequest) {
+        Product deleteProduct;
+        ResponseEntity result = new ResponseEntity<>(HttpStatus.OK);
+
+        for (int id : deleteRequest.get("productIds")) {
+            if (Validator.isNumber(id)) {
+                deleteProduct = this.productService.deleteProduct(id);
+
+                if (deleteProduct == null) {
+                    result = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                result = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        return result;
     }
 }
