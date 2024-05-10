@@ -1,4 +1,4 @@
-package com.example.shoppingmall.member;
+package com.example.shoppingmall.user;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @AllArgsConstructor
-public class MemberController {
+public class UserController {
 
-    private MemberService memberService;
+    private UserService userService;
 
     @PostMapping(value = "/signup")
-    public ResponseEntity signup(@RequestBody Member member){
-        Member signedMember = this.memberService.signup(member);
+    public ResponseEntity signup(@RequestBody User user){
+        User signedUser = this.userService.signup(user);
 
-        if(signedMember != null) {
+        if(signedUser != null) {
             return new ResponseEntity(HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -28,9 +28,9 @@ public class MemberController {
 
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody Map<String, String> loginInfo){
-        Member loginedMember = this.memberService.login(loginInfo);
+        User loginedUser = this.userService.login(loginInfo);
 
-        if(loginedMember != null){
+        if(loginedUser != null){
             return new ResponseEntity(HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

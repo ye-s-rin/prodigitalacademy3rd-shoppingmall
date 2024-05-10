@@ -1,4 +1,4 @@
-package com.example.shoppingmall.member;
+package com.example.shoppingmall.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-public class Member {
+public class User {
 
     private int id;
     private String user_id;
