@@ -83,7 +83,7 @@ public class ProductService {
             if (Validator.isNumber(id)) {
                 deleteProduct = this.productRepository.deleteProduct(id);
 
-                if (deleteProduct != null) {
+                if (deleteProduct == null) {
                     result = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             } else {
