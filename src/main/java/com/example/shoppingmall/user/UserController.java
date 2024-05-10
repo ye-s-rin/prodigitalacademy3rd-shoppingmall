@@ -1,5 +1,6 @@
 package com.example.shoppingmall.user;
 
+import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,9 @@ public class UserController {
         User signedUser = this.userService.join(user);
 
         if(signedUser != null) {
-            return new ResponseEntity(signedUser.getUser_id(), HttpStatus.CREATED);
+            Map<String, String> result = new HashMap<>();
+            result.put("user_id", signedUser.getUser_id());
+            return new ResponseEntity(result, HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
