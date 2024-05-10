@@ -1,6 +1,7 @@
 package com.example.shoppingmall.product;
 
 import com.example.shoppingmall.utils.Validator;
+import java.util.ArrayList;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,5 +83,25 @@ public class ProductController {
             }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/products/delete")
+    public ResponseEntity deleteProducts(@RequestBody Map<String, ArrayList<Integer>> productsIds) {
+        Product deleteProduct;
+        ResponseEntity result = new ResponseEntity<>(HttpStatus.OK);
+
+        for (int id : productsIds.get("productIds")) {
+            if (Validator.isNumber(id)) {
+                deleteProduct = this.productService.deleteProduct(id);
+
+                if (deleteProduct != null) {
+                    result = new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            } else {
+                result = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        return result;
     }
 }
