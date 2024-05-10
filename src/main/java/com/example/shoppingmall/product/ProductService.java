@@ -2,10 +2,8 @@ package com.example.shoppingmall.product;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
-@Log
 @Service
 @AllArgsConstructor
 public class ProductService {
