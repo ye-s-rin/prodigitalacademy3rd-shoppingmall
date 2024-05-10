@@ -49,6 +49,7 @@ public class ProductRepository {
 
         pagination.put("currentPage", currentPage);
         pagination.put("lastPage", lastPage);
+        pagination.put("totalCount", this.productTable.size());
 
         result.put("products", products);
         result.put("pagination", pagination);
@@ -85,6 +86,7 @@ public class ProductRepository {
 
         pagination.put("currentPage", currentPage);
         pagination.put("lastPage", lastPage);
+        pagination.put("totalCount", tempProducts.size());
 
         result.put("products", products);
         result.put("pagination", pagination);
