@@ -75,11 +75,11 @@ public class ProductService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity deleteProducts(Map<String, ArrayList<Integer>> productsIds) {
+    public ResponseEntity deleteProducts(Map<String, ArrayList<Integer>> deleteRequest) {
         Product deleteProduct;
         ResponseEntity result = new ResponseEntity<>(HttpStatus.OK);
 
-        for (int id : productsIds.get("productIds")) {
+        for (int id : deleteRequest.get("productIds")) {
             if (Validator.isNumber(id)) {
                 deleteProduct = this.productRepository.deleteProduct(id);
 

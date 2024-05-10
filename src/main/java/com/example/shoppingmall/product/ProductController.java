@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/products/delete")
-    public ResponseEntity deleteProducts(@RequestBody Map<String, ArrayList<Integer>> productsIds) {
-        return this.productService.deleteProducts(productsIds);
+    public ResponseEntity deleteProducts(@RequestBody Map<String, ArrayList<Integer>> deleteRequest) {
+        return this.productService.deleteProducts(deleteRequest);
     }
 }
