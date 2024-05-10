@@ -39,13 +39,10 @@ public class ProductRepository {
         ArrayList products = new ArrayList<Product>();
         Map pagination = new HashMap<String, Integer>();
         limit = limit > 0 ? limit : this.productTable.size();
-        int lastPage;
-        int si;
-
-        lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
+        int lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
         currentPage = Math.min(currentPage, lastPage);
 
-        si = (currentPage - 1) * limit;
+        int si = (currentPage - 1) * limit;
         for (int i = si; i < Math.min(si + limit, productTable.size()); i++) {
             products.add(findProduct(i));
         }
@@ -64,8 +61,6 @@ public class ProductRepository {
         ArrayList products = new ArrayList<Product>();
         Map pagination = new HashMap<String, Integer>();
         limit = limit > 0 ? limit : this.productTable.size();
-        int lastPage;
-        int si;
         int count = 0;
 
         ArrayList<Product> tempProducts = new ArrayList<>();
@@ -76,11 +71,11 @@ public class ProductRepository {
             }
         }
 
-        lastPage = (int) Math.ceil((double) count / limit);
+        int lastPage = (int) Math.ceil((double) count / limit);
         currentPage = Math.min(currentPage, lastPage);
 
-        si = (currentPage - 1) * limit;
         count = 0;
+        int si = (currentPage - 1) * limit;
         for (Product product : tempProducts) {
             if (count >= si && count < si + limit) {
                 products.add(product);
