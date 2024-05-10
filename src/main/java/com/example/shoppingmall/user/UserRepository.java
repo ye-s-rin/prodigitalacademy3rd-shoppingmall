@@ -7,20 +7,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepository {
 
-    private Map<Integer, User> userTable = new HashMap<>();
-    private int id = 0;
+    private Map<String, User> userTable = new HashMap<>();
 
     public User join(User user) {
-        user.setId(id);
-        this.userTable.put(id, user);
-
-        return this.userTable.get(id++);
+        this.userTable.put(user.getUser_id(), user);
+        return this.userTable.get((user.getUser_id()));
     }
 
     public User login(Map<String, String> loginInfo) {
         for (User user : this.userTable.values()) {
             if (isSignedUser(user, loginInfo)){
-                return this.userTable.get(user.getId());
+                return this.userTable.get(user.getUser_id());
             }
         }
         return null;
