@@ -3,10 +3,8 @@ package com.example.shoppingmall.product;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.extern.java.Log;
 import org.springframework.stereotype.Repository;
 
-@Log
 @Repository
 public class ProductRepository {
 
@@ -97,7 +95,6 @@ public class ProductRepository {
     public Product registerProduct(Product product) {
         product.setId(id++);
         this.productTable.put(product.getId(), product);
-        log.info("/product: repository - " + findProduct(product.getId()).getName());
 
         return findProduct(product.getId());
     }
