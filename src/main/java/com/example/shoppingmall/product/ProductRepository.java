@@ -34,49 +34,60 @@ public class ProductRepository {
         return result;
     }
 
-    public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
+    public Map findProducts(int currentPage, int limit) {
         Map result = new HashMap<String, Object>();
         ArrayList products = new ArrayList<Product>();
         Map pagination = new HashMap<String, Integer>();
         currentPage = currentPage > 0 ? currentPage : 1;
-        limit =
-            limit != null ? limit > 0 ? limit : this.productTable.size() : this.productTable.size();
+        limit = limit > 0 ? limit : this.productTable.size();
         int lastPage;
         int si;
 
-        if (categoryId == null) {
-            lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
-            currentPage = Math.min(currentPage, lastPage);
+        lastPage = (int) Math.ceil((double) this.productTable.size() / limit);
+        currentPage = Math.min(currentPage, lastPage);
 
-            si = (currentPage - 1) * limit;
-            for (int i = si; i < Math.min(si + limit, productTable.size()); i++) {
-                products.add(findProduct(i));
-            }
-        } else {
-            int count = 0;
-            ArrayList<Product> tempProducts = new ArrayList<>();
-            for (Product product : this.productTable.values()) {
-                if (product.getCategoryId() == categoryId) {
-                    tempProducts.add(product);
-                    count++;
-                }
-            }
+        si = (currentPage - 1) * limit;
+        for (int i = si; i < Math.min(si + limit, productTable.size()); i++) {
+            products.add(findProduct(i));
+        }
 
-            lastPage = (int) Math.ceil((double) count / limit);
-            currentPage = Math.min(currentPage, lastPage);
+        pagination.put("currentPage", currentPage);
+        pagination.put("lastPage", lastPage);
 
-            log.info("count: " + count);
-            log.info("limit: " + limit);
-            log.info("loastPage: " + lastPage);
-            log.info("currentPage: " + currentPage);
-            si = (currentPage - 1) * limit;
-            count = 0;
-            for (Product product : tempProducts) {
-                if (count >= si && count < si + limit) {
-                    products.add(product);
-                }
+        result.put("products", products);
+        result.put("pagination", pagination);
+
+        return result;
+    }
+
+    public Map findProducts(int currentPage, int limit, int categoryId) {
+        Map result = new HashMap<String, Object>();
+        ArrayList products = new ArrayList<Product>();
+        Map pagination = new HashMap<String, Integer>();
+        currentPage = currentPage > 0 ? currentPage : 1;
+        limit = limit > 0 ? limit : this.productTable.size();
+        int lastPage;
+        int si;
+        int count = 0;
+
+        ArrayList<Product> tempProducts = new ArrayList<>();
+        for (Product product : this.productTable.values()) {
+            if (product.getCategoryId() == categoryId) {
+                tempProducts.add(product);
                 count++;
             }
+        }
+
+        lastPage = (int) Math.ceil((double) count / limit);
+        currentPage = Math.min(currentPage, lastPage);
+
+        si = (currentPage - 1) * limit;
+        count = 0;
+        for (Product product : tempProducts) {
+            if (count >= si && count < si + limit) {
+                products.add(product);
+            }
+            count++;
         }
 
         pagination.put("currentPage", currentPage);

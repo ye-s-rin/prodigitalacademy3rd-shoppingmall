@@ -44,20 +44,19 @@ public class ProductController {
         log.info("limit: " + limit);
         log.info("categoryId: " + categoryId);
 
+        Map resultMap;
         if (currentPage == null) {
-            Map resultMap = this.productService.findProducts();
-            if (resultMap != null) {
-                return new ResponseEntity<>(resultMap, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            resultMap = this.productService.findProducts();
+        } else if (categoryId == null) {
+            resultMap = this.productService.findProducts(currentPage, limit);
         } else {
-            Map resultMap = this.productService.findProducts(currentPage, limit, categoryId);
-            if (resultMap != null) {
-                return new ResponseEntity<>(resultMap, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            resultMap = this.productService.findProducts(currentPage, limit, categoryId);
+        }
+
+        if (resultMap != null) {
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

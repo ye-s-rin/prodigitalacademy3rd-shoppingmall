@@ -20,7 +20,17 @@ public class ProductService {
         return this.productRepository.findProducts();
     }
 
+    public Map findProducts(Integer currentPage, Integer limit) {
+        if (limit == null) {
+            limit = 0;
+        }
+        return this.productRepository.findProducts(currentPage, limit);
+    }
+
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
+        if (limit == null) {
+            limit = 0;
+        }
         return this.productRepository.findProducts(currentPage, limit, categoryId);
     }
 
