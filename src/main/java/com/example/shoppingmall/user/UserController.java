@@ -16,9 +16,9 @@ public class UserController {
 
     private UserService userService;
 
-    @PostMapping(value = "/signup")
-    public ResponseEntity signup(@RequestBody User user){
-        User signedUser = this.userService.signup(user);
+    @PostMapping(value = "/join")
+    public ResponseEntity join(@RequestBody User user){
+        User signedUser = this.userService.join(user);
 
         if(signedUser != null) {
             return new ResponseEntity(HttpStatus.CREATED);

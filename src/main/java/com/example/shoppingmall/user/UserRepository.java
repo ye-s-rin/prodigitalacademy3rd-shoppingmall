@@ -10,7 +10,7 @@ public class UserRepository {
     private Map<Integer, User> userTable = new HashMap<>();
     private int id = 0;
 
-    public User signup(User user) {
+    public User join(User user) {
         user.setId(id);
         this.userTable.put(id, user);
 

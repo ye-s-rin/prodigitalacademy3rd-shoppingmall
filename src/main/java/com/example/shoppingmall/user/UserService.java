@@ -11,8 +11,8 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public User signup(@RequestBody User user){
-        return this.userRepository.signup(user);
+    public User join(@RequestBody User user){
+        return this.userRepository.join(user);
     }
 
     public User login(Map<String, String> loginInfo) {
