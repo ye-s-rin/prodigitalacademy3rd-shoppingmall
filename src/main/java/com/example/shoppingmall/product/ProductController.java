@@ -57,19 +57,7 @@ public class ProductController {
 
     @PostMapping(value = "/products")
     public ResponseEntity registerProduct(@RequestBody Product product) {
-        // * 유효성 검사: name(영어), price(숫자)
-        // 1) 조건문
-        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
-            Product savedProduct = this.productService.registerProduct(product);
-            try {
-                log.info(savedProduct.getName());
-            } catch (NullPointerException e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return this.productService.registerProduct(product);
     }
 
     @DeleteMapping(value = "/products/{id}")

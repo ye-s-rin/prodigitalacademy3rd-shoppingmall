@@ -38,9 +38,20 @@ public class ProductService {
         return products;
     }
 
-    public Product registerProduct(Product product) {
-        log.info("/product: service - " + product.getName());
-        return productRepository.registerProduct(product);
+    public ResponseEntity registerProduct(Product product) {
+        // * 유효성 검사: name(영어), price(숫자)
+        // 1) 조건문
+        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
+            Product savedProduct = this.productRepository.registerProduct(product);
+            try {
+                log.info(savedProduct.getName());
+            } catch (NullPointerException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     public ResponseEntity deleteProduct(int id) {
