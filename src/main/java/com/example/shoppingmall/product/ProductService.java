@@ -42,16 +42,8 @@ public class ProductService {
         return this.productRepository.registerProduct(product);
     }
 
-    public ResponseEntity deleteProduct(int id) {
-        if (Validator.isNumber(id)) {
-            Product deleteProduct = this.productRepository.deleteProduct(id);
-            if (deleteProduct == null) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public Product deleteProduct(int id) {
+        return this.productRepository.deleteProduct(id);
     }
 
     public ResponseEntity deleteProducts(Map<String, ArrayList<Integer>> deleteRequest) {

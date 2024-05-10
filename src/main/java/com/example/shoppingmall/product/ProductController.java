@@ -69,7 +69,15 @@ public class ProductController {
 
     @DeleteMapping(value = "/products/{id}")
     public ResponseEntity deleteProduct(@PathVariable("id") int id) {
-        return this.productService.deleteProduct(id);
+        if (Validator.isNumber(id)) {
+            Product deleteProduct = this.productService.deleteProduct(id);
+            if (deleteProduct != null) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/products/delete")
