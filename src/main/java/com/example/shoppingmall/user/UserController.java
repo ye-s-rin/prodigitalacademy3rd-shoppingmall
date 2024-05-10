@@ -23,7 +23,7 @@ public class UserController {
 
         if(signedUser != null) {
             Map<String, String> result = new HashMap<>();
-            result.put("user_id", signedUser.getUserId());
+            result.put("user_id", signedUser.getUser_id());
             return new ResponseEntity(result, HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
