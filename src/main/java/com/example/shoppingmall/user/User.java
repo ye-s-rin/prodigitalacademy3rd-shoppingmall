@@ -1,5 +1,6 @@
 package com.example.shoppingmall.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
-    private String user_id;
-    private String profile_info;
+    @JsonProperty(value = "user_id")
+    private String userId;
+    private String pw;
     private String name;
     private String email;
     private String contact;
