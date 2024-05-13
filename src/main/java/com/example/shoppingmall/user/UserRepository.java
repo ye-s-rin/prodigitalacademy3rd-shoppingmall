@@ -28,7 +28,7 @@ public class UserRepository {
             .equals(loginInfo.get("pw"));
     }
 
-    public boolean isDuplicate(String userId) {
+    public boolean isDuplicateId(String userId) {
         return this.userTable.containsKey(userId);
     }
 }

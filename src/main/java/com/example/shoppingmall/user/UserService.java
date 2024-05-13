@@ -19,7 +19,7 @@ public class UserService {
         return this.userRepository.login(loginInfo);
     }
 
-    public boolean isDuplicate(String userId) {
-        return this.userRepository.isDuplicate(userId);
+    public boolean isDuplicateId(String userId) {
+        return this.userRepository.isDuplicateId(userId);
     }
 }
