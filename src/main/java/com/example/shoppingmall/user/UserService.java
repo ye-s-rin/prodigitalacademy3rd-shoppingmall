@@ -11,7 +11,7 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public User join(@RequestBody User user){
+    public User join(@RequestBody User user) {
         return this.userRepository.join(user);
     }
 
@@ -20,6 +20,13 @@ public class UserService {
     }
 
     public boolean isDuplicateId(String userId) {
-        return this.userRepository.isDuplicateId(userId);
+//        return this.userRepository.isDuplicateId(userId);
+        User existUser = this.userRepository.findById(userId);
+
+        if (existUser == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

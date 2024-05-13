@@ -16,7 +16,7 @@ public class UserRepository {
 
     public User login(Map<String, String> loginInfo) {
         for (User user : this.userTable.values()) {
-            if (isSignedUser(user, loginInfo)){
+            if (isSignedUser(user, loginInfo)) {
                 return this.userTable.get(user.getUserId());
             }
         }
@@ -30,5 +30,9 @@ public class UserRepository {
 
     public boolean isDuplicateId(String userId) {
         return this.userTable.containsKey(userId);
+    }
+
+    public User findById(String userId) {
+        return this.userTable.get(userId);
     }
 }
