@@ -23,10 +23,18 @@ public class UserController {
 
         if(signedUser != null) {
             Map<String, String> result = new HashMap<>();
-            result.put("user_id", signedUser.getUser_id());
+            result.put("user_id", signedUser.getUserId());
             return new ResponseEntity(result, HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(value = "/duplication")
+    public ResponseEntity isDuplicated(@RequestBody Map<String, String> userId){
+        if(this.userService.isDuplicated(userId.get("user_id"))){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping(value = "/login")

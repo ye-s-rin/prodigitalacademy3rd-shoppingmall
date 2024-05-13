@@ -18,4 +18,8 @@ public class UserService {
     public User login(Map<String, String> loginInfo) {
         return this.userRepository.login(loginInfo);
     }
+
+    public boolean isDuplicated(String userId) {
+        return this.userRepository.isDuplicated(userId);
+    }
 }
