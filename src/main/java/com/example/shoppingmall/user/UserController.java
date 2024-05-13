@@ -19,6 +19,10 @@ public class UserController {
 
     @PostMapping(value = "/join")
     public ResponseEntity join(@RequestBody User user){
+        if(this.userService.isDuplicated(user.getUserId())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         User signedUser = this.userService.join(user);
 
         if(signedUser != null) {
