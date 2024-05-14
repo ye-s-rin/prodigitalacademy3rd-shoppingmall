@@ -66,7 +66,7 @@ public class UserController {
             Map<String, String> result = new HashMap<>();
             result.put("user_id", signedUser.getUserId());
 //            return new ResponseEntity(result, HttpStatus.CREATED);
-            return new ResponseEntity(new ApiResult(signedUser), HttpStatus.CREATED);
+            return new ResponseEntity(new ApiResult(result), HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
