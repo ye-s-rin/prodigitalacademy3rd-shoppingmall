@@ -17,6 +17,33 @@ public class UserController {
 
     private UserService userService;
 
+    @PostMapping(value = "/join/res/en") // Before
+    public ResponseEntity joinByResponseEntity(@RequestBody User user) {
+        /**
+         * ID 중복 체크
+         * 중복이면, 사용자 예외 클래스 소환
+         * 1) 예외 클래스한테 return 요청
+         * 2) 예외만 발생시키고 메시지는 직접 return
+         */
+        if (isDuplicateId(user)) {
+            DuplicateUserIdException e = new DuplicateUserIdException();
+            log.info(e.getMessage());
+
+//            return new ResponseEntity(null, HttpStatus.CONFLICT);
+            return new ResponseEntity(new ApiResult(null), HttpStatus.CONFLICT);
+        }
+
+        User signedUser = this.userService.join(user);
+
+        if (signedUser != null) {
+            Map<String, String> result = new HashMap<>();
+            result.put("user_id", signedUser.getUserId());
+//            return new ResponseEntity(result, HttpStatus.CREATED);
+            return new ResponseEntity(new ApiResult(signedUser), HttpStatus.CREATED);
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping(value = "/join")
     public ResponseEntity join(@RequestBody User user) {
         /**
