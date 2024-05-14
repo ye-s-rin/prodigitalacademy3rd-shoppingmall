@@ -30,22 +30,22 @@ public class UserController {
             log.info(e.getMessage());
 
 //            return new ResponseEntity(null, HttpStatus.CONFLICT);
-            return new ResponseEntity(new ApiResult(null), HttpStatus.CONFLICT);
+//            return new ResponseEntity(new ApiResult(null), HttpStatus.CONFLICT);
         }
 
-        User signedUser = this.userService.join(user);
+        User joinedUser = this.userService.join(user);
 
-        if (signedUser != null) {
+        if (joinedUser != null) {
             Map<String, String> result = new HashMap<>();
-            result.put("user_id", signedUser.getUserId());
+            result.put("user_id", joinedUser.getUserId());
 //            return new ResponseEntity(result, HttpStatus.CREATED);
-            return new ResponseEntity(new ApiResult(result), HttpStatus.CREATED);
+//            return new ResponseEntity(new ApiResult(result), HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/join")
-    public ResponseEntity join(@RequestBody User user) {
+    public ApiResult<String> joinByApiResult(@RequestBody User user) {
         /**
          * ID 중복 체크
          * 중복이면, 사용자 예외 클래스 소환
@@ -56,19 +56,17 @@ public class UserController {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
 
-//            return new ResponseEntity(null, HttpStatus.CONFLICT);
-            return new ResponseEntity(new ApiResult(null), HttpStatus.CONFLICT);
+            return new ApiResult<>(false, null, new ApiResult.ApiError("중복입니다.", HttpStatus.CONFLICT));
         }
 
-        User signedUser = this.userService.join(user);
+        User joinedUser = this.userService.join(user);
 
-        if (signedUser != null) {
+        if (joinedUser != null) {
             Map<String, String> result = new HashMap<>();
-            result.put("user_id", signedUser.getUserId());
-//            return new ResponseEntity(result, HttpStatus.CREATED);
-            return new ResponseEntity(new ApiResult(result), HttpStatus.CREATED);
+            result.put("user_id", joinedUser.getUserId());
+            return new ApiResult<>(true, joinedUser.getUserId(), null);
         }
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ApiResult<>(false, null, new ApiResult.ApiError("사용자 요청 에러입니다.", HttpStatus.BAD_REQUEST));
     }
 
     private boolean isDuplicateId(User user) {
