@@ -56,7 +56,7 @@ public class UserController {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
 
-            return new ApiResult<>(false, null, new ApiResult.ApiError("중복입니다.", HttpStatus.CONFLICT));
+            return apiResult409();
         }
 
         User joinedUser = this.userService.join(user);
@@ -64,9 +64,22 @@ public class UserController {
         if (joinedUser != null) {
             Map<String, String> result = new HashMap<>();
             result.put("user_id", joinedUser.getUserId());
-            return new ApiResult<>(true, joinedUser.getUserId(), null);
+            return apiResult200(joinedUser);
         }
-        return new ApiResult<>(false, null, new ApiResult.ApiError("사용자 요청 에러입니다.", HttpStatus.BAD_REQUEST));
+        return apiResult400();
+    }
+
+    private static ApiResult<String> apiResult200(User joinedUser) {
+        return new ApiResult<>(true, joinedUser.getUserId(), null);
+    }
+
+    private static ApiResult<String> apiResult409() {
+        return new ApiResult<>(false, null, new ApiResult.ApiError("중복입니다.", HttpStatus.CONFLICT));
+    }
+
+    private static ApiResult<String> apiResult400() {
+        return new ApiResult<>(false, null,
+            new ApiResult.ApiError("사용자 요청 에러입니다.", HttpStatus.BAD_REQUEST));
     }
 
     private boolean isDuplicateId(User user) {
