@@ -1,13 +1,9 @@
 package com.example.shoppingmall.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
-@Component
+@AllArgsConstructor
 public class ApiResult<T> {
 
     private boolean success;
@@ -22,6 +18,7 @@ public class ApiResult<T> {
             this.error = null;
         } else {
             this.success = false;
+            this.response = null;
             this.error = new ApiError();
         }
     }
