@@ -1,5 +1,7 @@
 package com.example.shoppingmall.user;
 
+import com.example.shoppingmall.utils.ApiUtils;
+import com.example.shoppingmall.utils.ApiUtils.ApiResult;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -45,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/join")
-    public ApiResult<String> joinByApiResult(@RequestBody User user) {
+    public ApiResult joinByApiResult(@RequestBody User user) {
         /**
          * ID 중복 체크
          * 중복이면, 사용자 예외 클래스 소환
@@ -56,7 +58,7 @@ public class UserController {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
 
-            return apiResult409();
+            return ApiUtils.error("중복입니다.", HttpStatus.CONFLICT);
         }
 
         User joinedUser = this.userService.join(user);
@@ -64,22 +66,11 @@ public class UserController {
         if (joinedUser != null) {
             Map<String, String> result = new HashMap<>();
             result.put("user_id", joinedUser.getUserId());
-            return apiResult200(joinedUser);
+
+            return ApiUtils.success(result);
         }
-        return apiResult400();
-    }
 
-    private static ApiResult<String> apiResult200(User joinedUser) {
-        return new ApiResult<>(true, joinedUser.getUserId(), null);
-    }
-
-    private static ApiResult<String> apiResult409() {
-        return new ApiResult<>(false, null, new ApiResult.ApiError("중복입니다.", HttpStatus.CONFLICT));
-    }
-
-    private static ApiResult<String> apiResult400() {
-        return new ApiResult<>(false, null,
-            new ApiResult.ApiError("사용자 요청 에러입니다.", HttpStatus.BAD_REQUEST));
+        return ApiUtils.error("잘못된 사용자 요청입니다.", HttpStatus.BAD_REQUEST);
     }
 
     private boolean isDuplicateId(User user) {
