@@ -1,7 +1,5 @@
 package com.example.shoppingmall.user;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
@@ -10,29 +8,32 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-public class ApiResult {
+public class ApiResult<T> {
 
     private boolean success;
-    private Map<String, Object> response;
-    private Map<String, Object> error;
+    private T response;
+    private ApiError error;
 
-    public ApiResult join(User user) {
-        if (user != null) {
+    public ApiResult(T response){
+        this.response = response;
+
+        if(this.response != null){
             this.success = true;
-            this.response = new HashMap<>();
             this.error = null;
-
-            this.response.put("user_id", user.getUserId());
-            this.response.put("status", HttpStatus.CREATED);
-        } else {
+        } else{
             this.success = false;
-            this.response = null;
-            this.error = new HashMap<>();
-
-            this.error.put("message", "중복입니다.");
-            this.error.put("status", HttpStatus.CONFLICT);
+            this.error = new ApiError();
         }
+    }
+}
 
-        return this;
+class ApiError {
+
+    private String message;
+    private HttpStatus httpStatus;
+
+    ApiError(){
+        this.message = "중복입니다.";
+        this.httpStatus = HttpStatus.CONFLICT;
     }
 }
