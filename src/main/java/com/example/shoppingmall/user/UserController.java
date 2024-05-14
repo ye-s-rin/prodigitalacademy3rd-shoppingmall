@@ -30,7 +30,7 @@ public class UserController {
             log.info(e.getMessage());
 
 //            return new ResponseEntity(null, HttpStatus.CONFLICT);
-            return new ResponseEntity(new ApiResult().join(null), HttpStatus.CONFLICT);
+            return new ResponseEntity(new ApiResult(null), HttpStatus.CONFLICT);
         }
 
         User signedUser = this.userService.join(user);
@@ -39,7 +39,7 @@ public class UserController {
             Map<String, String> result = new HashMap<>();
             result.put("user_id", signedUser.getUserId());
 //            return new ResponseEntity(result, HttpStatus.CREATED);
-            return new ResponseEntity(new ApiResult().join(signedUser), HttpStatus.CREATED);
+            return new ResponseEntity(new ApiResult(signedUser), HttpStatus.CREATED);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
