@@ -9,8 +9,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class MyAOP {
 
     @Pointcut("execution(* com.example.shoppingmall.order.OrderController..*(..))")
