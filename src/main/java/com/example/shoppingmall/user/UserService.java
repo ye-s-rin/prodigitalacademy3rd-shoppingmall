@@ -11,8 +11,10 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public User join(@RequestBody User user) {
-        return this.userRepository.join(user);
+    public UserDTO join(@RequestBody UserDTO userDto) {
+
+        return new UserDTO().convertToEntity(
+            this.userRepository.join(new User().convertToDTO(userDto)));
     }
 
     public User login(Map<String, String> loginInfo) {
