@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
+    private int id;
     @JsonProperty(value = "user_id")
     private String userId;
     private String pw;
