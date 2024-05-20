@@ -61,14 +61,6 @@ public class UserController {
          * 1) 예외 클래스한테 return 요청
          * 2) 예외만 발생시키고 메시지는 직접 return
          */
-//        if (errors.hasErrors()) {
-//            List<FieldError> list = errors.getFieldErrors();
-//            String message = "";
-//            for (FieldError error : list) {
-//                message += error.getDefaultMessage() + " ";
-//            }
-//            return error(message, HttpStatus.BAD_REQUEST);
-//        }
 
         if(errors.hasErrors()){
             Map<String, String> errorMessages = new HashMap<>();
