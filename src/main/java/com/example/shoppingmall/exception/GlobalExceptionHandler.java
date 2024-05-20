@@ -28,6 +28,7 @@ public class GlobalExceptionHandler {
             errorMessages.put(error.getField(), error.getDefaultMessage());
         }
 
+        log.info("errorMessages.toString={}", errorMessages.toString());
         return error(errorMessages, HttpStatus.BAD_REQUEST);
     }
 }
