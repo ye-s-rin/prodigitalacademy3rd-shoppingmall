@@ -15,6 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserDTO {
 
+    /**
+     * UserReqDto, UserResDto
+     * SignUpReqDto, SignUpResDto
+     * LoginReqDto, LoginResDto
+     */
+
     private int id;
     @JsonProperty(value = "user_id")
     @NotBlank(message = "아이디를 입력해주세요.")
