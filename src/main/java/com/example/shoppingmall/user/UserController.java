@@ -14,8 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -53,25 +56,7 @@ public class UserController {
 //    }
 
     @PostMapping(value = "/join")
-    public ApiUtils.ApiResult join(@Valid @RequestBody UserDTO userDto,
-        Errors errors) {
-        /**
-         * ID 중복 체크
-         * 중복이면, 사용자 예외 클래스 소환
-         * 1) 예외 클래스한테 return 요청
-         * 2) 예외만 발생시키고 메시지는 직접 return
-         */
-
-        if(errors.hasErrors()){
-            Map<String, String> errorMessages = new HashMap<>();
-
-            for(FieldError error : errors.getFieldErrors()){
-                errorMessages.put(error.getField(), error.getDefaultMessage());
-            }
-
-            return error(errorMessages, HttpStatus.BAD_REQUEST);
-        }
-
+    public ApiUtils.ApiResult join(@Valid @RequestBody UserDTO userDto) {
         if (isDuplicateId(userDto)) {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
@@ -101,6 +86,20 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    // 유효성 검사에서 에러가 발생하면 호출되는 예외 처리 메소드
+    @ExceptionHandler//(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiUtils.ApiResult<Map<String, String>> handleValidationExceptions(
+        MethodArgumentNotValidException errors) {
+        Map<String, String> errorMessages = new HashMap<>();
+
+        for (FieldError error : errors.getFieldErrors()) {
+            errorMessages.put(error.getField(), error.getDefaultMessage());
+        }
+
+        return error(errorMessages, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping(value = "/login")
