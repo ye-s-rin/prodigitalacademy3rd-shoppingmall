@@ -18,7 +18,9 @@ public class UserService {
 
     @Transactional
     public UserDTO join(@RequestBody UserDTO userDto) {
-        return this.userRepository.save(userDto.convertToEntity()).convertToDTO();
+        this.userRepository.save(userDto.convertToEntity());
+
+        return this.userRepository.findByUserId(userDto.getUserId()).convertToDTO();
     }
 
     @Transactional

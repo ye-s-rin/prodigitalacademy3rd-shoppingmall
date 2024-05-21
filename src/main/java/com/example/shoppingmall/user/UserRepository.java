@@ -26,14 +26,8 @@ public class UserRepository {
         DataSourceUtils.getConnection(dataSource);
     }
 
-    public User save(User user) {
+    public void save(User user) {
         this.entityManager.persist(user);
-
-        return findByUserId(user.getUserId());
-    }
-
-    public User findById(int id) {
-        return this.entityManager.find(User.class, id);
     }
 
     public User login(Map<String, String> loginInfo) {
@@ -60,5 +54,9 @@ public class UserRepository {
             .getResultList();
 
         return users.isEmpty() ? null : users.get(0);
+    }
+
+    public User findById(int id) {
+        return this.entityManager.find(User.class, id);
     }
 }
