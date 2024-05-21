@@ -16,9 +16,7 @@ import org.springframework.stereotype.Component;
 public class UserDTO {
 
     /**
-     * UserReqDto, UserResDto
-     * SignUpReqDto, SignUpResDto
-     * LoginReqDto, LoginResDto
+     * UserReqDto, UserResDto SignUpReqDto, SignUpResDto LoginReqDto, LoginResDto
      */
 
     private int id;
@@ -36,13 +34,15 @@ public class UserDTO {
     @NotBlank(message = "전화번호를 입력해주세요.")
     private String contact;
 
-    public UserDTO convertToEntity(User user) {
-        this.userId = user.getUserId();
-        this.pw = user.getPw();
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.contact = user.getContact();
+    public UserDTO(String userId, String pw, String name, String email, String contact) {
+        this.userId = userId;
+        this.pw = pw;
+        this.name = name;
+        this.email = email;
+        this.contact = contact;
+    }
 
-        return this;
+    public User convertToEntity() {
+        return new User(this.userId, this.pw, this.name, this.email, this.contact);
     }
 }
