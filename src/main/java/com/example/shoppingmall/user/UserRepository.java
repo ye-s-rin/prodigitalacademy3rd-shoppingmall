@@ -30,7 +30,7 @@ public class UserRepository {
         this.entityManager.persist(user);
     }
 
-    public User login(Map<String, String> loginInfo) {
+    public User findByLoginInfo(Map<String, String> loginInfo) {
         String userId = loginInfo.get("user_id");
         String pw = loginInfo.get("pw");
 

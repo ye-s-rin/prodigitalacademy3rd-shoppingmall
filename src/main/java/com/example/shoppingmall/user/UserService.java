@@ -25,7 +25,7 @@ public class UserService {
 
     @Transactional
     public UserDTO login(Map<String, String> loginInfo) {
-        return this.userRepository.login(loginInfo).convertToDTO();
+        return this.userRepository.findByLoginInfo(loginInfo).convertToDTO();
     }
 
     public boolean isDuplicateUserId(String userId) {
