@@ -1,38 +1,64 @@
 package com.example.shoppingmall.user;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.sql.DataSource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
+@Slf4j
 @Repository
 public class UserRepository {
 
+    @PersistenceContext
+    private EntityManager entityManager;
+    @Autowired
+    private DataSource dataSource;
     private Map<String, User> userTable = new HashMap<>();
 
-    public User join(User user) {
-        this.userTable.put(user.getUserId(), user);
-        return this.userTable.get((user.getUserId()));
+    public void makeConnection() {
+        DataSourceUtils.getConnection(dataSource);
+    }
+
+    public User save(User user) {
+        this.entityManager.persist(user);
+
+        return findByUserId(user.getUserId());
+    }
+
+    public User findById(int id) {
+        return this.entityManager.find(User.class, id);
     }
 
     public User login(Map<String, String> loginInfo) {
-        for (User user : this.userTable.values()) {
-            if (isSignedUser(user, loginInfo)) {
-                return this.userTable.get(user.getUserId());
-            }
-        }
-        return null;
+        String userId = loginInfo.get("user_id");
+        String pw = loginInfo.get("pw");
+
+        TypedQuery<User> query = entityManager.createQuery(
+            "SELECT u FROM User u WHERE u.userId = :userId AND u.pw = :pw", User.class);
+
+        List<User> loginUser = query
+            .setParameter("userId", userId)
+            .setParameter("pw", pw)
+            .getResultList();
+
+        return loginUser.isEmpty() ? null : loginUser.get(0);
     }
 
-    private boolean isSignedUser(User user, Map<String, String> loginInfo) {
-        return user.getUserId().equals(loginInfo.get("user_id")) && user.getPw()
-            .equals(loginInfo.get("pw"));
-    }
+    public User findByUserId(String userId) {
+        TypedQuery<User> query = entityManager.createQuery(
+            "SELECT u FROM User u WHERE u.userId = :userId", User.class);
 
-    public boolean isDuplicateId(String userId) {
-        return this.userTable.containsKey(userId);
-    }
+        List<User> users = query
+            .setParameter("userId", userId)
+            .getResultList();
 
-    public User findById(String userId) {
-        return this.userTable.get(userId);
+        return users.isEmpty() ? null : users.get(0);
     }
 }

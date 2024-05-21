@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
+
+    @GetMapping("/datasource")
+    public void makeConnection() {
+        this.userService.makeConnection();
+    }
 
 //    @PostMapping(value = "/join/res/en") // Before
 //    public ResponseEntity joinByResponseEntity(@RequestBody User user) {
@@ -51,14 +57,16 @@ public class UserController {
 
     @PostMapping(value = "/join")
     public ApiUtils.ApiResult join(@Valid @RequestBody UserDTO userDto) {
-        if (isDuplicateId(userDto)) {
+        if (this.userService.isDuplicateUserId(userDto.getUserId())) {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
 
             return error("중복입니다.", HttpStatus.CONFLICT);
         }
 
+        log.info("userDto={}", userDto.toString());
         UserDTO joinedUser = this.userService.join(userDto);
+        log.info("joinedUser={}", joinedUser.toString());
 
         if (joinedUser != null) {
             Map<String, String> result = new HashMap<>();
@@ -70,23 +78,20 @@ public class UserController {
         return error("잘못된 사용자 요청입니다.", HttpStatus.BAD_REQUEST);
     }
 
-    private boolean isDuplicateId(UserDTO userDto) {
-        return this.userService.isDuplicateId(userDto.getUserId());
-    }
-
     @PostMapping(value = "/duplication")
-    public ResponseEntity isDuplicateId(@RequestBody Map<String, String> userId) {
-        if (this.userService.isDuplicateId(userId.get("user_id"))) {
+    public ResponseEntity isDuplicateUserId(@RequestBody Map<String, String> userInfo) {
+        if (this.userService.isDuplicateUserId(userInfo.get("user_id"))) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity(HttpStatus.OK);
         }
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody Map<String, String> loginInfo) {
-        User loginedUser = this.userService.login(loginInfo);
+        UserDTO loginUser = this.userService.login(loginInfo);
 
-        if (loginedUser != null) {
+        if (loginUser != null) {
             return new ResponseEntity(HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);
