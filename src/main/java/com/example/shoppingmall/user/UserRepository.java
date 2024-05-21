@@ -20,7 +20,6 @@ public class UserRepository {
     private EntityManager entityManager;
     @Autowired
     private DataSource dataSource;
-    private Map<String, User> userTable = new HashMap<>();
 
     public void makeConnection() {
         DataSourceUtils.getConnection(dataSource);
