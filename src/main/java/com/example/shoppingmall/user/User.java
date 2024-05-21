@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
@@ -20,10 +19,9 @@ import org.springframework.stereotype.Component;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
     private int id;
-    @JsonProperty(value = "user_id")
+
+    @Column(name = "user_id")
     private String userId;
     private String pw;
     private String name;
@@ -38,14 +36,7 @@ public class User {
         this.contact = contact;
     }
 
-    public User convertToDTO(UserDTO userDto) {
-        this.id = userDto.getId();
-        this.userId = userDto.getUserId();
-        this.pw = userDto.getPw();
-        this.name = userDto.getName();
-        this.email = userDto.getEmail();
-        this.contact = userDto.getContact();
-
-        return this;
+    public UserDTO convertToDTO() {
+        return new UserDTO(this.userId, this.pw, this.name, this.email, this.contact);
     }
 }
