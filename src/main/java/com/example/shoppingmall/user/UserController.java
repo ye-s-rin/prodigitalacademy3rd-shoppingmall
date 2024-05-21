@@ -64,13 +64,12 @@ public class UserController {
             return error("중복입니다.", HttpStatus.CONFLICT);
         }
 
-        log.info("userDto={}", userDto.toString());
-        UserDTO joinedUser = this.userService.join(userDto);
-        log.info("joinedUser={}", joinedUser.toString());
+        UserDTO joinUser = this.userService.join(userDto);
 
-        if (joinedUser != null) {
+        if (joinUser != null) {
             Map<String, String> result = new HashMap<>();
-            result.put("user_id", joinedUser.getUserId());
+            result.put("id", String.valueOf(joinUser.getId()));
+            result.put("user_id", joinUser.getUserId());
 
             return success(result);
         }

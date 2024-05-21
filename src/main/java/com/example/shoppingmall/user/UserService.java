@@ -20,12 +20,24 @@ public class UserService {
     public UserDTO join(@RequestBody UserDTO userDto) {
         this.userRepository.save(userDto.convertToEntity());
 
-        return this.userRepository.findByUserId(userDto.getUserId()).convertToDTO();
+        User joinUser = this.userRepository.findByUserId(userDto.getUserId());
+
+        if (joinUser != null) {
+            return joinUser.convertToDTO();
+        } else {
+            return null;
+        }
     }
 
     @Transactional
     public UserDTO login(Map<String, String> loginInfo) {
-        return this.userRepository.findByLoginInfo(loginInfo).convertToDTO();
+        User loginUser = this.userRepository.findByLoginInfo(loginInfo);
+
+        if (loginUser != null) {
+            return loginUser.convertToDTO();
+        } else {
+            return null;
+        }
     }
 
     public boolean isDuplicateUserId(String userId) {
