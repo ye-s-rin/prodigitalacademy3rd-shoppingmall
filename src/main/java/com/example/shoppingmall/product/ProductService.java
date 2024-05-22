@@ -31,11 +31,11 @@ public class ProductService {
         return products;
     }
 
-    public Product registerProduct(Product product) {
-        return this.productRepository.registerProduct(product);
+    public ProductDTO registerProduct(Product product) {
+        return this.productRepository.registerProduct(product).convertToDTO();
     }
 
-    public Product deleteProduct(int id) {
-        return this.productRepository.deleteProduct(id);
+    public ProductDTO deleteProduct(int id) {
+        return this.productRepository.deleteProduct(id).convertToDTO();
     }
 }

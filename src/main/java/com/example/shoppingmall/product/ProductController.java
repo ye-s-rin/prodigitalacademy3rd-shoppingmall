@@ -29,9 +29,9 @@ public class ProductController {
     @GetMapping(value = "/products/{id}")
     public ApiUtils.ApiResult findProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
-            ProductDTO resultProduct = productService.findProduct(id);
-            if (resultProduct != null) {
-                return success(resultProduct);
+            ProductDTO resultProductDto = productService.findProduct(id);
+            if (resultProductDto != null) {
+                return success(resultProductDto);
             } else {
                 return error("찾지 못했습니다.", HttpStatus.NOT_FOUND);
             }
@@ -59,13 +59,13 @@ public class ProductController {
         // * 유효성 검사: name(영어), price(숫자)
         // 1) 조건문
         if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
-            Product savedProduct = this.productService.registerProduct(product);
+            ProductDTO savedProductDto = this.productService.registerProduct(product);
             try {
-                log.info(savedProduct.getName());
+                log.info(savedProductDto.getName());
             } catch (NullPointerException e) {
                 return error("등록하지 못했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            return success(savedProduct); // HttpStatus.CREATED
+            return success(savedProductDto); // HttpStatus.CREATED
         } else {
             return error("잘못된 사용자 요청입니다.", HttpStatus.BAD_REQUEST);
         }
@@ -74,9 +74,9 @@ public class ProductController {
     @DeleteMapping(value = "/products/{id}")
     public ApiUtils.ApiResult deleteProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
-            Product deleteProduct = this.productService.deleteProduct(id);
-            if (deleteProduct != null) {
-                return success(deleteProduct);
+            ProductDTO deleteProductDto = this.productService.deleteProduct(id);
+            if (deleteProductDto != null) {
+                return success(deleteProductDto);
             } else {
                 return error("삭제하지 못했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -90,9 +90,9 @@ public class ProductController {
         @RequestBody Map<String, ArrayList<Integer>> deleteRequest) {
         for (int id : deleteRequest.get("productIds")) {
             if (Validator.isNumber(id)) {
-                Product deleteProduct = this.productService.deleteProduct(id);
+                ProductDTO deleteProductDto = this.productService.deleteProduct(id);
 
-                if (deleteProduct == null) {
+                if (deleteProductDto == null) {
                     return error("삭제하지 못했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             } else {
