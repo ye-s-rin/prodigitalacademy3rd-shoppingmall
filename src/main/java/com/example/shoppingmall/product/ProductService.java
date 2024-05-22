@@ -15,7 +15,7 @@ public class ProductService {
     }
 
     public ProductDTO findProduct(int id) {
-        return this.productRepository.findProduct(id).convertToDTO();
+        return this.productRepository.findById(id).convertToDTO();
     }
 
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {

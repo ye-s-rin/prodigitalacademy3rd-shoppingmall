@@ -21,22 +21,12 @@ public class ProductRepository {
     private Map<Integer, Product> productTable = new HashMap<>();
     private int id = 0; // DB auto_increment
 
-    public ProductRepository() {
-        this.productTable.put(id, new Product(id++, "cup0", 0));
-        this.productTable.put(id, new Product(id++, "cup1", 0));
-        this.productTable.put(id, new Product(id++, "t-shirts0", 1));
-        this.productTable.put(id, new Product(id++, "t-shirts1", 1));
-        this.productTable.put(id, new Product(id++, "pants0", 2));
-        this.productTable.put(id, new Product(id++, "pants1", 2));
-        this.productTable.put(id, new Product(id++, "pants2", 2));
-    }
-
     public void makeConnection() {
         DataSourceUtils.getConnection(dataSource);
     }
 
-    public Product findProduct(int id) {
-        return this.productTable.get(id);
+    public Product findById(int id) {
+        return this.entityManager.find(Product.class, id);
     }
 
     public Map findProducts() {
@@ -56,7 +46,7 @@ public class ProductRepository {
 
         int si = (currentPage - 1) * limit;
         for (int i = si; i < Math.min(si + limit, productTable.size()); i++) {
-            products.add(findProduct(i));
+            products.add(findById(i));
         }
 
         pagination.put("currentPage", currentPage);
@@ -110,7 +100,7 @@ public class ProductRepository {
         product.setId(id++);
         this.productTable.put(product.getId(), product);
 
-        return findProduct(product.getId());
+        return findById(product.getId());
     }
 
     public Product deleteProduct(int id) {
