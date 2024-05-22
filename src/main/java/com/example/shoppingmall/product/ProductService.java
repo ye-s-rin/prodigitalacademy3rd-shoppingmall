@@ -10,8 +10,8 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
-    public Product findProduct(int id) {
-        return this.productRepository.findProduct(id);
+    public ProductDTO findProduct(int id) {
+        return this.productRepository.findProduct(id).convertToDTO();
     }
 
     public Map findProducts(Integer currentPage, Integer limit, Integer categoryId) {
