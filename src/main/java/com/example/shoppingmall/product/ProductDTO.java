@@ -1,5 +1,6 @@
 package com.example.shoppingmall.product;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,11 +13,15 @@ import org.springframework.stereotype.Component;
 public class ProductDTO {
 
     private int id;
+
+    @JsonProperty(value = "product_id")
     private int productId;
     private String name;
     private int price;
     private String summary;
     private String desc;
+
+    @JsonProperty(value = "category_id")
     private int categoryId;
 
     public ProductDTO(int productId, String name, int categoryId) {
