@@ -15,15 +15,9 @@ public class ProductRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
-    @Autowired
-    private DataSource dataSource;
 
     private Map<Integer, Product> productTable = new HashMap<>();
     private int id = 0; // DB auto_increment
-
-    public void makeConnection() {
-        DataSourceUtils.getConnection(dataSource);
-    }
 
     public Product findById(int id) {
         return this.entityManager.find(Product.class, id);
