@@ -1,6 +1,8 @@
 package com.example.shoppingmall.product;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,11 +15,13 @@ import lombok.ToString;
 @Entity
 public class Product {
 
+    @Id
     private int id;
     private String name;
     private int price;
     private String summary;
     private String desc;
+    @Column(name = "category_id")
     private int categoryId;
 
     public Product(int id, String name, int categoryId) {
