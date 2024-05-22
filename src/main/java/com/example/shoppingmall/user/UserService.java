@@ -33,21 +33,13 @@ public class UserService {
     public UserDTO login(Map<String, String> loginInfo) {
         User loginUser = findByLoginInfo(loginInfo);
 
-        if (loginUser != null) {
-            return loginUser.convertToDTO();
-        } else {
-            return null;
-        }
+        return loginUser != null ? loginUser.convertToDTO() : null;
     }
 
     public boolean isDuplicateUserId(String userId) {
         Optional<User> existUser = this.userJPARepository.findByUserId(userId);
 
-        if (existUser != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return existUser.isEmpty() ? false : true;
     }
 
     public User findByLoginInfo(Map<String, String> loginInfo) {
