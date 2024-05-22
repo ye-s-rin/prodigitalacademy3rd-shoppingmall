@@ -1,12 +1,16 @@
 package com.example.shoppingmall.product;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.stereotype.Component;
+import lombok.ToString;
 
 @Getter
 @Setter
-@Component
+@ToString
+@RequiredArgsConstructor
+@Entity
 public class Product {
 
     private int id;
@@ -16,11 +20,23 @@ public class Product {
     private String desc;
     private int categoryId;
 
-    public Product(){}
-
-    public Product(int id, String name, int categoryId){
+    public Product(int id, String name, int categoryId) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
+    }
+
+    public Product(int id, String name, int price, String summary, String desc, int categoryId) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.summary = summary;
+        this.desc = desc;
+        this.categoryId = categoryId;
+    }
+
+    public ProductDTO convertToDTO() {
+        return new ProductDTO(this.id, this.name, this.price, this.summary, this.desc,
+            this.categoryId);
     }
 }
