@@ -33,8 +33,8 @@ public class UserRepository {
         String userId = loginInfo.get("user_id");
         String pw = loginInfo.get("pw");
 
-        TypedQuery<User> query = entityManager.createQuery(
-            "SELECT u FROM User u WHERE u.userId = :userId AND u.pw = :pw", User.class);
+        String jpql = "SELECT u FROM User u WHERE u.userId = :userId AND u.pw = :pw";
+        TypedQuery<User> query = entityManager.createQuery(jpql, User.class);
 
         List<User> loginUser = query
             .setParameter("userId", userId)
@@ -45,8 +45,8 @@ public class UserRepository {
     }
 
     public User findByUserId(String userId) {
-        TypedQuery<User> query = entityManager.createQuery(
-            "SELECT u FROM User u WHERE u.userId = :userId", User.class);
+        String jpql = "SELECT u FROM User u WHERE u.userId = :userId";
+        TypedQuery<User> query = entityManager.createQuery(jpql, User.class);
 
         List<User> users = query
             .setParameter("userId", userId)
