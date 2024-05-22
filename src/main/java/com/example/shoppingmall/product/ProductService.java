@@ -10,6 +10,10 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
+    public void makeConnection() {
+        this.productRepository.makeConnection();
+    }
+
     public ProductDTO findProduct(int id) {
         return this.productRepository.findProduct(id).convertToDTO();
     }

@@ -1,12 +1,22 @@
 package com.example.shoppingmall.product;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductRepository {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+    @Autowired
+    private DataSource dataSource;
 
     private Map<Integer, Product> productTable = new HashMap<>();
     private int id = 0; // DB auto_increment
@@ -19,6 +29,10 @@ public class ProductRepository {
         this.productTable.put(id, new Product(id++, "pants0", 2));
         this.productTable.put(id, new Product(id++, "pants1", 2));
         this.productTable.put(id, new Product(id++, "pants2", 2));
+    }
+
+    public void makeConnection() {
+        DataSourceUtils.getConnection(dataSource);
     }
 
     public Product findProduct(int id) {

@@ -26,6 +26,11 @@ public class ProductController {
 
     private ProductService productService;
 
+    @GetMapping("/datasource")
+    public void makeConnection() {
+        this.productService.makeConnection();
+    }
+
     @GetMapping(value = "/products/{id}")
     public ApiUtils.ApiResult findProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
