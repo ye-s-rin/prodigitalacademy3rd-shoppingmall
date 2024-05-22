@@ -1,6 +1,7 @@
 package com.example.shoppingmall.order;
 
 import com.example.shoppingmall.product.Product;
+import com.example.shoppingmall.product.ProductDTO;
 import com.example.shoppingmall.product.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +27,10 @@ public class OrderController {
 
     @PostMapping("/orders")
     public void orderProduct(@RequestBody OrderDTO orderDto) {
-        Product orderdProduct = this.productService.findProduct(orderDto.getProductId());
+        ProductDTO orderdProductDto = this.productService.findProduct(orderDto.getProductId());
 
         // DTO -> Entity TODO: move to Service
-        Order requestOrder = new Order (orderdProduct, orderDto.getCount());
+        Order requestOrder = new Order (orderdProductDto.convertToEntity(), orderDto.getCount());
         this.orderService.orderProduct(requestOrder);
     }
 }
