@@ -17,6 +17,7 @@ public class Product {
 
     @Id
     private int id;
+    private int productId;
     private String name;
     private int price;
     private String summary;
@@ -24,14 +25,14 @@ public class Product {
     @Column(name = "category_id")
     private int categoryId;
 
-    public Product(int id, String name, int categoryId) {
-        this.id = id;
+    public Product(int productId, String name, int categoryId) {
+        this.productId = productId;
         this.name = name;
         this.categoryId = categoryId;
     }
 
-    public Product(int id, String name, int price, String summary, String desc, int categoryId) {
-        this.id = id;
+    public Product(int productId, String name, int price, String summary, String desc, int categoryId) {
+        this.productId = productId;
         this.name = name;
         this.price = price;
         this.summary = summary;
@@ -40,7 +41,7 @@ public class Product {
     }
 
     public ProductDTO convertToDTO() {
-        return new ProductDTO(this.id, this.name, this.price, this.summary, this.desc,
+        return new ProductDTO(this.productId, this.name, this.price, this.summary, this.desc,
             this.categoryId);
     }
 }

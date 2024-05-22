@@ -12,20 +12,21 @@ import org.springframework.stereotype.Component;
 public class ProductDTO {
 
     private int id;
+    private int productId;
     private String name;
     private int price;
     private String summary;
     private String desc;
     private int categoryId;
 
-    public ProductDTO(int id, String name, int categoryId) {
-        this.id = id;
+    public ProductDTO(int productId, String name, int categoryId) {
+        this.productId = productId;
         this.name = name;
         this.categoryId = categoryId;
     }
 
-    public ProductDTO(int id, String name, int price, String summary, String desc, int categoryId) {
-        this.id = id;
+    public ProductDTO(int productId, String name, int price, String summary, String desc, int categoryId) {
+        this.productId = productId;
         this.name = name;
         this.price = price;
         this.summary = summary;
@@ -34,7 +35,7 @@ public class ProductDTO {
     }
 
     public Product convertToEntity() {
-        return new Product(this.id, this.name, this.price, this.summary, this.desc,
+        return new Product(this.productId, this.name, this.price, this.summary, this.desc,
             this.categoryId);
     }
 }
