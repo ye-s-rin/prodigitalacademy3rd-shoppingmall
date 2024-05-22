@@ -17,11 +17,14 @@ public class Product {
 
     @Id
     private int id;
+
+    @Column(name = "product_id")
     private int productId;
     private String name;
     private int price;
     private String summary;
     private String desc;
+
     @Column(name = "category_id")
     private int categoryId;
 
