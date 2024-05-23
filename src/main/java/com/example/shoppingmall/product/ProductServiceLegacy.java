@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ProductServiceLegacy {
 
-    private ProductRepository productRepository;
+    private ProductRepositoryLegacy productRepository;
 
     public ProductDTO findProduct(int id) {
         return this.productRepository.findById(id).convertToDTO();
