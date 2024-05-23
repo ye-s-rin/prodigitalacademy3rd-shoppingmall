@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findByCategoryId(int categoryId, Pageable pageable);
 
-    Optional<Product> findByProductId(int productId);
+    Optional<Product> findById(int id);
 
     Page<Product> findAll(Pageable pageable);
 
-    void deleteByProductId(int productId);
+    void deleteById(int id);
 }

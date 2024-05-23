@@ -17,7 +17,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public ProductDTO findByProductId(int productId) {
-        Optional<Product> product = productRepository.findByProductId(productId);
+        Optional<Product> product = productRepository.findById(productId);
         return product.isEmpty() ? null : product.get().convertToDTO();
     }
 
@@ -51,12 +51,12 @@ public class ProductService {
         return productRepository.save(product).convertToDTO();
     }
 
-    public ProductDTO deleteProduct(int productId) {
-        Optional<Product> preProductDto = productRepository.findByProductId(productId);
+    public ProductDTO deleteProduct(int id) {
+        Optional<Product> preProductDto = productRepository.findById(id);
 
         if (!preProductDto.isEmpty()) {
-            productRepository.deleteByProductId(productId);
-            Optional<Product> nowProductDto = productRepository.findByProductId(productId);
+            productRepository.deleteById(id);
+            Optional<Product> nowProductDto = productRepository.findById(id);
 
             return nowProductDto.isEmpty() ? preProductDto.get().convertToDTO() : null;
         } else {
