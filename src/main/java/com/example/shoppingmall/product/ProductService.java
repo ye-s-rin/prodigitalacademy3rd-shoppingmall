@@ -1,5 +1,6 @@
 package com.example.shoppingmall.product;
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +16,9 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
-    public ProductDTO findById(int id) {
-        return productRepository.findById(id).orElse(null).convertToDTO();
+    public ProductDTO findByProductId(int productId) {
+        Optional<Product> product = productRepository.findByProductId(productId);
+        return product.isEmpty() ? null : product.get().convertToDTO();
     }
 
     public Map<String, Object> findProducts(int currentPage, int limit) {
@@ -49,8 +51,16 @@ public class ProductService {
         return productRepository.save(product).convertToDTO();
     }
 
-    public ProductDTO deleteProduct(int id) {
-        productRepository.deleteById(id);
-        return null;
+    public ProductDTO deleteProduct(int productId) {
+        Optional<Product> preProductDto = productRepository.findByProductId(productId);
+
+        if (!preProductDto.isEmpty()) {
+            productRepository.deleteByProductId(productId);
+            Optional<Product> nowProductDto = productRepository.findByProductId(productId);
+
+            return nowProductDto.isEmpty() ? preProductDto.get().convertToDTO() : null;
+        } else {
+            return null;
+        }
     }
 }
