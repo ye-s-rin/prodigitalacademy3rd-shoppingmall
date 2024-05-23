@@ -29,7 +29,7 @@ public class ProductController {
     @GetMapping(value = "/products/{id}")
     public ApiUtils.ApiResult findProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
-            ProductDTO resultProductDto = productService.findProduct(id);
+            ProductDTO resultProductDto = productService.findById(id);
             if (resultProductDto != null) {
                 return success(resultProductDto);
             } else {
