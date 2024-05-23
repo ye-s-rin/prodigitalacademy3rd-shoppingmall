@@ -80,7 +80,7 @@ public class ProductController {
     @PostMapping(value = "/products/delete")
     public ApiUtils.ApiResult deleteProducts(
         @RequestBody Map<String, ArrayList<Integer>> deleteRequest) {
-        for (int id : deleteRequest.get("productIds")) {
+        for (int id : deleteRequest.get("product_ids")) {
             if (Validator.isNumber(id)) {
                 ProductDTO deleteProductDto = this.productService.deleteProduct(id);
 
@@ -92,6 +92,6 @@ public class ProductController {
             }
         }
 
-        return success(deleteRequest.get("productIds"));
+        return success(deleteRequest);
     }
 }
