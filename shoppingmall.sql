@@ -18,11 +18,10 @@ SELECT * FROM User;
 
 -- 사용자 테이블 생성
 CREATE TABLE IF NOT EXISTS Product (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL UNIQUE,
+    id INT PRIMARY KEY,
     name VARCHAR(10) NOT NULL,
     price INT NOT NULL,
-    summary VARCHAR(100) NOT NULL UNIQUE,
+    summary VARCHAR(100) NOT NULL,
     description VARCHAR(500) NOT NULL,
     category_id INT NOT NULL
 );
