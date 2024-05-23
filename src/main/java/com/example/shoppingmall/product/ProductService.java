@@ -33,14 +33,13 @@ public class ProductService {
             limit = 1;
         }
 
-        if (currentPage == null && limit == null && categoryId == null) {
-            return findAllProducts();
-        } else if (categoryId == null) {
-            return findProductsByPaging(currentPage, limit);
-        } else if (categoryId != null) {
+        if (currentPage != null && limit != null && categoryId != null) {
             return findProductsByCategoryId(currentPage, limit, categoryId);
+        } else if (currentPage != null && limit != null && categoryId == null) {
+            return findProductsByPaging(currentPage, limit);
+        } else {
+            return findAllProducts();
         }
-        return null;
     }
 
     public Map<String, Object> findAllProducts() {
