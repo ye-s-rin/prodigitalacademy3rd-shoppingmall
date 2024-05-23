@@ -19,7 +19,7 @@ public class ProductDTO {
     private String name;
     private int price;
     private String summary;
-    private String desc;
+    private String description;
 
     @JsonProperty(value = "category_id")
     private int categoryId;
@@ -30,17 +30,17 @@ public class ProductDTO {
         this.categoryId = categoryId;
     }
 
-    public ProductDTO(int productId, String name, int price, String summary, String desc, int categoryId) {
+    public ProductDTO(int productId, String name, int price, String summary, String description, int categoryId) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.summary = summary;
-        this.desc = desc;
+        this.description = description;
         this.categoryId = categoryId;
     }
 
     public Product convertToEntity() {
-        return new Product(this.productId, this.name, this.price, this.summary, this.desc,
+        return new Product(this.productId, this.name, this.price, this.summary, this.description,
             this.categoryId);
     }
 }
