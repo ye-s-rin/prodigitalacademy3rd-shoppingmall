@@ -16,8 +16,8 @@ public class ProductService {
 
     private ProductRepository productRepository;
 
-    public ProductDTO findByProductId(int productId) {
-        Optional<Product> product = productRepository.findById(productId);
+    public ProductDTO findProduct(int id) {
+        Optional<Product> product = productRepository.findById(id);
         return product.isEmpty() ? null : product.get().convertToDTO();
     }
 
@@ -47,8 +47,8 @@ public class ProductService {
         return result;
     }
 
-    public ProductDTO registerProduct(Product product) {
-        return productRepository.save(product).convertToDTO();
+    public ProductDTO registerProduct(ProductDTO productDto) {
+        return productRepository.save(productDto.convertToEntity()).convertToDTO();
     }
 
     public ProductDTO deleteProduct(int id) {

@@ -29,7 +29,7 @@ public class ProductController {
     @GetMapping(value = "/products/{id}")
     public ApiUtils.ApiResult findProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
-            ProductDTO resultProductDto = productService.findById(id);
+            ProductDTO resultProductDto = productService.findProduct(id);
             if (resultProductDto != null) {
                 return success(resultProductDto);
             } else {
@@ -47,19 +47,15 @@ public class ProductController {
 
         Map products = this.productService.findProducts(currentPage, limit, categoryId);
 
-        if (products != null) {
-            return success(products);
-        } else {
-            return error("찾지 못했습니다.", HttpStatus.NOT_FOUND);
-        }
+        return products != null ? success(products) : error("찾지 못했습니다.", HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(value = "/products")
-    public ApiUtils.ApiResult registerProduct(@RequestBody Product product) {
+    public ApiUtils.ApiResult registerProduct(@RequestBody ProductDTO productDto) {
         // * 유효성 검사: name(영어), price(숫자)
         // 1) 조건문
-        if (Validator.isAlpha(product.getName()) && Validator.isNumber(product.getPrice())) {
-            ProductDTO savedProductDto = this.productService.registerProduct(product);
+        if (Validator.isAlpha(productDto.getName()) && Validator.isNumber(productDto.getPrice())) {
+            ProductDTO savedProductDto = this.productService.registerProduct(productDto);
             try {
                 log.info(savedProductDto.getName());
             } catch (NullPointerException e) {
@@ -75,11 +71,7 @@ public class ProductController {
     public ApiUtils.ApiResult deleteProduct(@PathVariable("id") int id) {
         if (Validator.isNumber(id)) {
             ProductDTO deleteProductDto = this.productService.deleteProduct(id);
-            if (deleteProductDto != null) {
-                return success(deleteProductDto);
-            } else {
-                return error("삭제하지 못했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            return deleteProductDto != null ? success(deleteProductDto): error("삭제하지 못했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return error("잘못된 사용자 요청입니다.", HttpStatus.BAD_REQUEST);
     }
