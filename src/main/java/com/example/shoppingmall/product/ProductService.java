@@ -25,13 +25,8 @@ public class ProductService {
     public Map<String, Object> findProducts(Integer currentPage, Integer limit,
         Integer categoryId) {
 
-        if (currentPage != null && currentPage < 1) {
-            currentPage = 1;
-        }
-
-        if (limit != null && limit < 1) {
-            limit = 1;
-        }
+        currentPage = checkRange(currentPage);
+        limit = checkRange(limit);
 
         if (currentPage != null && limit != null && categoryId != null) {
             return findProductsByCategoryId(currentPage, limit, categoryId);
@@ -40,6 +35,10 @@ public class ProductService {
         } else {
             return findAllProducts();
         }
+    }
+
+    private static Integer checkRange(Integer i) {
+        return i != null && i < 1 ? 1 : i;
     }
 
     public Map<String, Object> findAllProducts() {
