@@ -11,4 +11,11 @@ public class Validator {
     public static boolean isNumber(int price) {
         return Pattern.matches("^[0-9]*$", price + "");
     }
+
+    public static Integer checkRange(Integer i) {
+        if (i == null) {
+            return null;
+        }
+        return i != null && i < 1 ? 1 : i;
+    }
 }
