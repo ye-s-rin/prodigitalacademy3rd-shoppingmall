@@ -1,5 +1,7 @@
 package com.example.shoppingmall.product;
 
+import static com.example.shoppingmall.utils.Validator.checkRange;
+
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -35,10 +37,6 @@ public class ProductService {
         } else {
             return findAllProducts();
         }
-    }
-
-    private static Integer checkRange(Integer i) {
-        return i != null && i < 1 ? 1 : i;
     }
 
     public Map<String, Object> findAllProducts() {
