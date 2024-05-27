@@ -78,11 +78,14 @@ public class UserController {
     }
 
     @PostMapping(value = "/duplication")
-    public ResponseEntity isDuplicateUserId(@RequestBody Map<String, String> userInfo) {
+    public ApiUtils.ApiResult isDuplicateUserId(@RequestBody Map<String, String> userInfo) {
         if (this.userService.isDuplicateUserId(userInfo.get("user_id"))) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            DuplicateUserIdException e = new DuplicateUserIdException();
+            log.info(e.getMessage());
+
+            return error("중복입니다.", HttpStatus.CONFLICT);
         } else {
-            return new ResponseEntity(HttpStatus.OK);
+            return success(userInfo);
         }
     }
 
