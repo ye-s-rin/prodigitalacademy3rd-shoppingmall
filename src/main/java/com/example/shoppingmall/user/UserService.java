@@ -26,8 +26,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO login(Map<String, String> loginInfo) {
-        User loginUser = findByLoginInfo(loginInfo);
+    public UserDTO login(UserLoginReq userLoginReq) {
+        User loginUser = findByLoginInfo(userLoginReq);
 
         return loginUser != null ? loginUser.convertToDTO() : null;
     }
@@ -38,9 +38,9 @@ public class UserService {
         return existUser.isEmpty() ? false : true;
     }
 
-    public User findByLoginInfo(Map<String, String> loginInfo) {
-        String userId = loginInfo.get("user_id");
-        String pw = loginInfo.get("pw");
+    public User findByLoginInfo(UserLoginReq userLoginReq) {
+        String userId = userLoginReq.getUserId();
+        String pw = userLoginReq.getPw();
         Optional<User> user = userJPARepository.findByUserIdAndPw(userId, pw);
         return user.orElse(null);
     }
