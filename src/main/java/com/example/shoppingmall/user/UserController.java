@@ -57,10 +57,7 @@ public class UserController {
 
     @PostMapping(value = "/user/join")
     public ApiUtils.ApiResult join(@Valid @RequestBody UserDTO userDto) {
-        if (this.userService.isDuplicateUserId(userDto.getUserId())) {
-            DuplicateUserIdException e = new DuplicateUserIdException();
-            log.info(e.getMessage());
-
+        if (isDuplicateUserId(userDto.getUserId())) {
             return error("중복입니다.", HttpStatus.CONFLICT);
         }
 
@@ -79,26 +76,20 @@ public class UserController {
 
     @PostMapping(value = "/users/duplication")
     public ApiUtils.ApiResult isDuplicateUserId(@RequestBody Map<String, String> userInfo) {
-        if (this.userService.isDuplicateUserId(userInfo.get("user_id"))) {
-            DuplicateUserIdException e = new DuplicateUserIdException();
-            log.info(e.getMessage());
+        if (isDuplicateUserId(userInfo.get("user_id"))) {
             return error("중복입니다.", HttpStatus.CONFLICT);
         } else {
             return success(userInfo);
         }
     }
 
-    private ApiUtils.ApiResult isDuplicateUserId(String userId) {
+    private boolean isDuplicateUserId(String userId) {
         if (this.userService.isDuplicateUserId(userId)) {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
-
-            return error("중복입니다.", HttpStatus.CONFLICT);
+            return true;
         } else {
-            Map<String, String> result = new HashMap<>();
-            result.put("user_id", userId);
-
-            return success(result);
+            return false;
         }
     }
 
