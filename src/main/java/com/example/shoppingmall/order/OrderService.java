@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
+    private OrderMapRepository orderRepository;
 
     public void orderProduct(Order order) {
-        this.orderRepository.orderProduct(order);
+        this.orderRepository.save(order);
     }
 }
