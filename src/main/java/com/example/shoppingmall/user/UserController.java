@@ -3,6 +3,8 @@ package com.example.shoppingmall.user;
 import static com.example.shoppingmall.utils.ApiUtils.error;
 import static com.example.shoppingmall.utils.ApiUtils.success;
 
+import com.example.shoppingmall.exception.DuplicateUserIdException;
+import com.example.shoppingmall.exception.PasswordNotValidException;
 import com.example.shoppingmall.utils.ApiUtils;
 import jakarta.validation.Valid;
 import java.util.HashMap;
@@ -58,7 +60,7 @@ public class UserController {
     @PostMapping(value = "/user/join")
     public ApiUtils.ApiResult join(@Valid @RequestBody UserDTO userDto) {
         if (isDuplicateUserId(userDto.getUserId())) {
-            return error("중복입니다.", HttpStatus.CONFLICT);
+            return error("이미 사용 중인 아이디입니다.", HttpStatus.CONFLICT);
         }
 
         UserDTO joinUser = this.userService.join(userDto);
@@ -75,31 +77,23 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/duplication")
-    public ApiUtils.ApiResult isDuplicateUserId(@RequestBody Map<String, String> userInfo) {
+    public ApiUtils.ApiResult checkUsableUserId(@RequestBody Map<String, String> userInfo) {
         if (isDuplicateUserId(userInfo.get("user_id"))) {
-            return error("중복입니다.", HttpStatus.CONFLICT);
+            throw new DuplicateUserIdException("이미 사용 중인 아이디입니다.");
         } else {
             return success(userInfo);
         }
     }
 
     private boolean isDuplicateUserId(String userId) {
-        if (this.userService.isDuplicateUserId(userId)) {
-            DuplicateUserIdException e = new DuplicateUserIdException();
-            log.info(e.getMessage());
-            return true;
-        } else {
-            return false;
-        }
+        return this.userService.isDuplicateUserId(userId) ? true : false;
     }
 
     @PostMapping(value = "/user/login")
-    public ResponseEntity login(@RequestBody Map<String, String> loginInfo) {
-        UserDTO loginUser = this.userService.login(loginInfo);
+    public ApiUtils.ApiResult login(@Valid @RequestBody UserLoginReq userLoginReq)
+        throws PasswordNotValidException {
+        String userName = this.userService.login(userLoginReq);
 
-        if (loginUser != null) {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return success(userName);
     }
 }
