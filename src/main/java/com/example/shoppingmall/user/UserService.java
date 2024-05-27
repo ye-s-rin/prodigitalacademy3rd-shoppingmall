@@ -22,11 +22,7 @@ public class UserService {
 
         Optional<User> joinUser = this.userJPARepository.findByUserId(userDto.getUserId());
 
-        if (joinUser != null) {
-            return joinUser.get().convertToDTO();
-        } else {
-            return null;
-        }
+        return joinUser != null ? joinUser.get().convertToDTO() : null;
     }
 
     @Transactional
