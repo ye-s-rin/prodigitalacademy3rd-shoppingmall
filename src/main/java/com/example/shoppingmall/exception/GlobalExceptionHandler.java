@@ -31,4 +31,24 @@ public class GlobalExceptionHandler {
         log.info("errorMessages.toString={}", errorMessages.toString());
         return error(errorMessages, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ApiResult<String> handleDuplicateUserIdException(
+        DuplicateUserIdException errors) {
+        String errorMessage = errors.getMessage();
+
+        log.info("errorMessage.toString={}", errorMessage.toString());
+        return error(errorMessage, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResult<String> handlePasswordNotValidException(
+        PasswordNotValidException errors) {
+        String errorMessage = errors.getMessage();
+
+        log.info("errorMessage.toString={}", errorMessage.toString());
+        return error(errorMessage, HttpStatus.BAD_REQUEST);
+    }
 }
