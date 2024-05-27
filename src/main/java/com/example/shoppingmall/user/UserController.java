@@ -55,7 +55,7 @@ public class UserController {
 //        return new ResponseEntity(HttpStatus.BAD_REQUEST);
 //    }
 
-    @PostMapping(value = "/join")
+    @PostMapping(value = "/user/join")
     public ApiUtils.ApiResult join(@Valid @RequestBody UserDTO userDto) {
         if (this.userService.isDuplicateUserId(userDto.getUserId())) {
             DuplicateUserIdException e = new DuplicateUserIdException();
@@ -77,19 +77,32 @@ public class UserController {
         return error("잘못된 사용자 요청입니다.", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(value = "/duplication")
+    @PostMapping(value = "/users/duplication")
     public ApiUtils.ApiResult isDuplicateUserId(@RequestBody Map<String, String> userInfo) {
         if (this.userService.isDuplicateUserId(userInfo.get("user_id"))) {
             DuplicateUserIdException e = new DuplicateUserIdException();
             log.info(e.getMessage());
-
             return error("중복입니다.", HttpStatus.CONFLICT);
         } else {
             return success(userInfo);
         }
     }
 
-    @PostMapping(value = "/login")
+    private ApiUtils.ApiResult isDuplicateUserId(String userId) {
+        if (this.userService.isDuplicateUserId(userId)) {
+            DuplicateUserIdException e = new DuplicateUserIdException();
+            log.info(e.getMessage());
+
+            return error("중복입니다.", HttpStatus.CONFLICT);
+        } else {
+            Map<String, String> result = new HashMap<>();
+            result.put("user_id", userId);
+
+            return success(result);
+        }
+    }
+
+    @PostMapping(value = "/user/login")
     public ResponseEntity login(@RequestBody Map<String, String> loginInfo) {
         UserDTO loginUser = this.userService.login(loginInfo);
 
